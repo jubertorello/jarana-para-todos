@@ -1,9 +1,15 @@
+/* Fuente de display de pago. El archivo no esta en el repo, asi que la
+   declaracion queda desactivada para no provocar un 404 en cada carga.
+   Para activarla: copia Arsenica-ExtraBold.woff2 en public/assets/fonts/
+   y descomenta el bloque. Sin ella, los titulares usan Montserrat 800. */
+/*
 @font-face {
   font-family: "Arsenica";
   src: url("/assets/fonts/Arsenica-ExtraBold.woff2") format("woff2");
   font-weight: 800;
   font-display: swap;
 }
+*/
 
 :root {
   --ink: #08090a;

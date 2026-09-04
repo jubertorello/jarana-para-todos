@@ -1,15 +1,9 @@
-/* Fuente de display de pago. El archivo no esta en el repo, asi que la
-   declaracion queda desactivada para no provocar un 404 en cada carga.
-   Para activarla: copia Arsenica-ExtraBold.woff2 en public/assets/fonts/
-   y descomenta el bloque. Sin ella, los titulares usan Montserrat 800. */
-/*
-@font-face {
-  font-family: "Arsenica";
-  src: url("/assets/fonts/Arsenica-ExtraBold.woff2") format("woff2");
-  font-weight: 800;
-  font-display: swap;
-}
-*/
+/* TIPOGRAFIA DE MARCA
+   Manual: Arsenica ExtraBold es la fuente principal, pero se reserva al
+   logo y a las "frases jaraneras". El logo ya se sirve como PNG, asi que
+   la web no necesita cargar el archivo de Arsenica.
+   Montserrat (Regular 400 / Medium 500 / Bold 700) es la secundaria y es
+   la que se usa en titulares y textos de la web. */
 
 :root {
   --ink: #08090a;
@@ -48,8 +42,8 @@ a:hover { color: var(--yellow); }
   color: rgba(244, 243, 240, 0.4);
 }
 .titular {
-  font-family: "Arsenica", "Montserrat", Helvetica, sans-serif;
-  font-weight: 800; letter-spacing: -0.03em;
+  font-family: "Montserrat", Helvetica, sans-serif;
+  font-weight: 700; letter-spacing: -0.03em;
 }
 
 /* ---------- nav ---------- */
@@ -81,7 +75,7 @@ a:hover { color: var(--yellow); }
 
 .btn-ticket-sm {
   background: var(--paper); color: var(--ink); padding: 11px 20px; border-radius: 999px;
-  font: 600 10px/1 "Montserrat", Helvetica, sans-serif;
+  font: 700 10px/1 "Montserrat", Helvetica, sans-serif;
   letter-spacing: 0.18em; text-transform: uppercase;
   transition: transform 0.25s, background 0.25s;
 }
@@ -116,7 +110,7 @@ a:hover { color: var(--yellow); }
   letter-spacing: .34em; text-transform: uppercase; color: rgba(244,243,240,.72);
 }
 .hero h1 {
-  margin: 0; font-family: "Arsenica", "Montserrat", Helvetica, sans-serif; font-weight: 800;
+  margin: 0; font-family: "Montserrat", Helvetica, sans-serif; font-weight: 700;
   font-size: clamp(38px, 6.2vw, 88px); line-height: .98; letter-spacing: -.025em;
   text-transform: uppercase; max-width: 16ch; text-wrap: balance;
   animation: jfade 1s .08s ease both;
@@ -131,7 +125,7 @@ a:hover { color: var(--yellow); }
   display: inline-flex; align-items: center; justify-content: center; gap: 14px;
   background: var(--paper); color: var(--ink); padding: 18px clamp(24px, 5vw, 32px);
   flex: 1 1 260px; max-width: 340px; border-radius: 999px;
-  font: 600 11.5px/1 "Montserrat", Helvetica, sans-serif;
+  font: 700 11.5px/1 "Montserrat", Helvetica, sans-serif;
   letter-spacing: .2em; text-transform: uppercase;
   transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s;
 }
@@ -208,7 +202,7 @@ a:hover { color: var(--yellow); }
   padding: 26px 22px; display: flex; flex-direction: column; gap: 9px;
 }
 .stat b {
-  font-family: "Arsenica", "Montserrat", Helvetica, sans-serif; font-weight: 800;
+  font-family: "Montserrat", Helvetica, sans-serif; font-weight: 700;
   font-size: 38px; line-height: 1; letter-spacing: -.02em;
 }
 .stat span {
@@ -255,7 +249,7 @@ a:hover { color: var(--yellow); }
 .btn-follow {
   display: inline-flex; align-items: center; gap: 11px;
   border: 1px solid rgba(244,243,240,.22); border-radius: 999px; padding: 14px 22px;
-  font: 600 10px/1 "Montserrat", Helvetica, sans-serif;
+  font: 700 10px/1 "Montserrat", Helvetica, sans-serif;
   letter-spacing: .2em; text-transform: uppercase;
   transition: border-color .3s, background .3s;
 }
@@ -338,7 +332,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   width: 26px; height: 26px; border-radius: 50%; background: var(--green);
   display: flex; align-items: center; justify-content: center; flex: none;
 }
-.wa b { font: 600 10.5px/1 "Montserrat", Helvetica, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+.wa b { font: 700 10.5px/1 "Montserrat", Helvetica, sans-serif; letter-spacing: .16em; text-transform: uppercase; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }

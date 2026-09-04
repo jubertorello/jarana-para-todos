@@ -9,8 +9,8 @@ const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");
 const WA_URL = "https://wa.me/" + WHATSAPP;
 const PLATFORM = "Fourvenues";
-const HERO_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/02_Jarana1_hhbxfv.mp4";
-const REEL_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/04_Jarana2_pwdw0x.mp4";
+const HERO_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/04_Jarana2_pwdw0x.mp4";
+const REEL_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/02_Jarana1_hhbxfv.mp4";
 
 function useAutoplay() {
   const ref = useRef(null);

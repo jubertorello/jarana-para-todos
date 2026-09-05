@@ -261,9 +261,10 @@ a:hover { color: var(--yellow); }
   transition: border-color .3s, background .3s;
 }
 .btn-follow:hover { border-color: transparent; background: rgba(244,243,240,.1); }
-/* 8 publicaciones: 4 columnas dan una retícula 4x2 exacta. Con auto-fit
-   salían 7 columnas y la octava quedaba sola en una segunda fila. */
-.ig-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 1px; }
+/* El feed de Behold devuelve 6 publicaciones: 3 columnas dan una retícula
+   3x2 exacta (y 2 columnas en movil dan 3x2). Con auto-fit salian 7
+   columnas y quedaban huecos sueltos. */
+.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding: 1px; }
 .ig-cell {
   position: relative; background: #0c0d10; box-shadow: 0 0 0 1px var(--line);
   aspect-ratio: 1; overflow: hidden;

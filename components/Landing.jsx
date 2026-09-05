@@ -143,7 +143,6 @@ export default function Landing({ posts = [] }) {
           <span className="eyebrow">01 &mdash; {t.aboutLabel}</span>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
-          <p>{t.aboutP2}</p>
           <ul className="creds">
             {t.creds.map((cr) => (
               <li key={cr}>

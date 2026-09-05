@@ -364,7 +364,8 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   /* En columna unica, el 4/5 vertical dejaba un reel altisimo y un hueco
      muerto al lado. En apaisado ocupa todo el ancho sin desbordar. */
   .reel { aspect-ratio: 16 / 10; }
-  .stats { grid-template-columns: repeat(4, 1fr); }
+  /* 6 KPIs: 3 columnas dan 3x2 exacto (con 4 quedaba una fila de 2) */
+  .stats { grid-template-columns: repeat(3, 1fr); }
   .press-grid { grid-template-columns: repeat(3, 1fr); }
   .ig-grid { grid-template-columns: repeat(3, 1fr); }
   .foot-grid { grid-template-columns: 1fr 1fr; }

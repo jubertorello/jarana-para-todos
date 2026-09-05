@@ -4,10 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { COPY, CITIES, PARTNERS } from "@/lib/copy";
 
 const TICKET_URL = process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
-const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34600000000").replace(/[^0-9]/g, "");
+const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
 const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");
 const WA_URL = "https://wa.me/" + WHATSAPP;
+const SPOTIFY_URL =
+  process.env.NEXT_PUBLIC_SPOTIFY_URL ||
+  "https://open.spotify.com/user/31al7dfx35rglpgvuvb5qtgxif5q";
+const YOUTUBE_URL =
+  process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://www.youtube.com/@JaranaParaTodos";
+const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
 const PLATFORM = "Fourvenues";
 const HERO_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/02_Jarana1_hhbxfv.mp4";
 const REEL_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/04_Jarana2_pwdw0x.mp4";
@@ -226,9 +232,14 @@ export default function Landing({ posts = [] }) {
           </div>
           <div className="foot-col">
             <span>{t.footContact}</span>
-            <a href="mailto:hola@jaranaparatodos.com">hola@jaranaparatodos.com</a>
+            <a href={"mailto:" + EMAIL}>{EMAIL}</a>
             <a href={WA_URL} target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div className="foot-col">
+            <span>{t.footSocial}</span>
             <a href={IG_URL} target="_blank" rel="noopener">Instagram</a>
+            <a href={SPOTIFY_URL} target="_blank" rel="noopener">Spotify</a>
+            <a href={YOUTUBE_URL} target="_blank" rel="noopener">YouTube</a>
           </div>
           <div className="foot-col">
             <span>{t.footLegal}</span>

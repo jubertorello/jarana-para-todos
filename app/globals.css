@@ -501,7 +501,9 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   box-shadow: 0 14px 40px rgba(0,0,0,.5);
   transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s;
 }
-.wa:hover { transform: translateY(-3px); background: var(--yellow); }
+/* El color hay que fijarlo: la regla global a:hover pone el texto amarillo
+   y el fondo tambien pasa a amarillo, con lo que la palabra desaparecia. */
+.wa:hover { transform: translateY(-3px); background: var(--yellow); color: var(--ink); }
 .wa i {
   width: 26px; height: 26px; border-radius: 50%; background: var(--green);
   display: flex; align-items: center; justify-content: center; flex: none;

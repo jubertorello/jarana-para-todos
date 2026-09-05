@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { COPY, CITIES, PARTNERS, MERCH_IMG } from "@/lib/copy";
+import { COPY, CITIES, PARTNERS, MERCH_MEDIA, MERCH_APILADAS, cldThumb, cldFull } from "@/lib/copy";
 
 const TICKET_URL = process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
@@ -48,6 +48,7 @@ function useAutoplay() {
 export default function Landing({ posts = [] }) {
   const [lang, setLang] = useState("es");
   const [scrolled, setScrolled] = useState(false);
+  const [galeria, setGaleria] = useState(null); // { k, t, fotos, i }
   const heroRef = useAutoplay();
   const reelRef = useAutoplay();
 
@@ -66,6 +67,23 @@ export default function Landing({ posts = [] }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+
+  useEffect(() => {
+    if (!galeria) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setGaleria(null);
+      if (e.key === "ArrowRight") setGaleria((g) => g && { ...g, i: (g.i + 1) % g.fotos.length });
+      if (e.key === "ArrowLeft") setGaleria((g) => g && { ...g, i: (g.i - 1 + g.fotos.length) % g.fotos.length });
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [galeria]);
 
   const t = COPY[lang];
 
@@ -223,20 +241,49 @@ export default function Landing({ posts = [] }) {
         </div>
         <div className="merch-grid">
           {t.merch.map((m) => {
-            const src = MERCH_IMG[m.k];
+            const fotos = MERCH_MEDIA[m.k] || [];
+            const hay = fotos.length > 0;
+            const Marco = hay ? "button" : "div";
+            const apilada = MERCH_APILADAS.includes(m.k);
+            // El pie de cromos sale del propio numero de fotos, para que no
+            // pueda quedar desfasado si se anaden o quitan piezas.
+            const meta = m.meta || (hay ? `${fotos.length} ${t.merchChars}` : null);
             return (
-              <article className="merch-card" key={m.k}>
-                <div className="merch-shot" data-pendiente={!src}>
-                  {src ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={src} alt={m.t} loading="lazy" />
+              <Marco
+                className="merch-card"
+                key={m.k}
+                type={hay ? "button" : undefined}
+                onClick={hay ? () => setGaleria({ k: m.k, t: m.t, fotos, i: 0 }) : undefined}
+                aria-label={hay ? `${m.t}: ver ${fotos.length} fotos` : undefined}
+              >
+                <div className="merch-shot" data-pendiente={!hay} data-apilada={apilada || undefined}>
+                  {hay ? (
+                    apilada ? (
+                      fotos.map((f, n) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={f} src={cldThumb(f)} alt={`${m.t} ${n + 1}`} loading="lazy" />
+                      ))
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={cldThumb(fotos[0])} alt={m.t} loading="lazy" />
+                    )
                   ) : (
-                    <span>{t.merchSoon}</span>
+                    <span>
+                      {t.merchSoon}
+                      <i>900&times;1125</i>
+                    </span>
                   )}
+                  {fotos.length > 1 ? <b className="merch-count">{fotos.length}</b> : null}
                 </div>
-                <h3>{m.t}</h3>
-                <p>{m.d}</p>
-              </article>
+                <div className="merch-txt">
+                  <div className="merch-h">
+                    <h3>{m.t}</h3>
+                    <i aria-hidden="true" />
+                  </div>
+                  <p>{m.d}</p>
+                  {meta ? <span className="merch-meta">{meta}</span> : null}
+                </div>
+              </Marco>
             );
           })}
         </div>
@@ -288,6 +335,32 @@ export default function Landing({ posts = [] }) {
         </i>
         <b>{t.wa}</b>
       </a>
+
+      {galeria ? (
+        <div className="visor" role="dialog" aria-modal="true" aria-label={galeria.t} onClick={() => setGaleria(null)}>
+          <button className="visor-x" type="button" aria-label="Cerrar" onClick={() => setGaleria(null)}>&times;</button>
+          <div className="visor-in" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={cldFull(galeria.fotos[galeria.i])} alt={`${galeria.t} ${galeria.i + 1}`} />
+            {galeria.fotos.length > 1 ? (
+              <>
+                <button
+                  className="visor-nav prev" type="button" aria-label="Anterior"
+                  onClick={() => setGaleria((g) => ({ ...g, i: (g.i - 1 + g.fotos.length) % g.fotos.length }))}
+                >&#8249;</button>
+                <button
+                  className="visor-nav next" type="button" aria-label="Siguiente"
+                  onClick={() => setGaleria((g) => ({ ...g, i: (g.i + 1) % g.fotos.length }))}
+                >&#8250;</button>
+              </>
+            ) : null}
+          </div>
+          <div className="visor-pie">
+            <span>{galeria.t}</span>
+            <span>{galeria.i + 1} / {galeria.fotos.length}</span>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

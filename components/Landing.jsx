@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { COPY, CITIES, PARTNERS } from "@/lib/copy";
+import { COPY, CITIES, PARTNERS, MERCH_IMG } from "@/lib/copy";
 
 const TICKET_URL = process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
@@ -211,6 +211,34 @@ export default function Landing({ posts = [] }) {
               )}
             </a>
           ))}
+        </div>
+      </section>
+
+
+      <section id="merch" className="merch">
+        <div className="merch-head">
+          <span className="eyebrow">04 &mdash; {t.merchLabel}</span>
+          <h2 className="titular">{t.merchTitle}</h2>
+          <p className="merch-note">{t.merchNote}</p>
+        </div>
+        <div className="merch-grid">
+          {t.merch.map((m) => {
+            const src = MERCH_IMG[m.k];
+            return (
+              <article className="merch-card" key={m.k}>
+                <div className="merch-shot" data-pendiente={!src}>
+                  {src ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={src} alt={m.t} loading="lazy" />
+                  ) : (
+                    <span>{t.merchSoon}</span>
+                  )}
+                </div>
+                <h3>{m.t}</h3>
+                <p>{m.d}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 

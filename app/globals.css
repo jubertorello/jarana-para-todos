@@ -379,7 +379,9 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
   .merch { padding: 56px 20px 72px; gap: 32px; }
   .merch-head h2 { font-size: clamp(23px, 6.6vw, 30px); }
   .merch-grid { grid-template-columns: 1fr; }
-  .merch-shot { aspect-ratio: 3 / 2; }
+  /* Vertical, como en escritorio: en apaisado la pieza se veia diminuta
+     dentro de una franja ancha. */
+  .merch-shot { aspect-ratio: 4 / 5; }
   .merch-txt { padding: 18px 16px 20px; }
   .merch-txt p { font-size: 12.5px; }
 }

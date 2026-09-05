@@ -226,19 +226,24 @@ a:hover { color: var(--yellow); }
 }
 .press-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; }
 .press-head .note { font-size: 12.5px; color: rgba(244,243,240,.4); }
-.press-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 1px; padding: 1px; }
+/* 14 partners: solo 7 y 2 columnas dan filas exactas. 7 en escritorio
+   (2 filas) y 2 en movil (7 filas); los tamaños intermedios llevan una
+   ultima fila incompleta, que en un muro de partners lee bien. */
+.press-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; padding: 1px; }
 .slot {
   background: var(--ink-2); box-shadow: 0 0 0 1px var(--line);
   display: flex; align-items: center; justify-content: center;
-  background-image: repeating-linear-gradient(135deg, rgba(244,243,240,.05) 0 6px, transparent 6px 13px);
   transition: background-color .3s;
 }
 .slot:hover { background-color: #101215; }
 .press-grid .slot { aspect-ratio: 16 / 9; }
 .slot span {
-  font: 500 8.5px/1.4 ui-monospace, Menlo, monospace;
-  letter-spacing: .14em; color: rgba(244,243,240,.34); text-align: center; padding: 0 8px;
+  font: 500 10px/1.45 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(244,243,240,.5); text-align: center; padding: 0 10px;
+  transition: color .3s;
 }
+.slot:hover span { color: rgba(244,243,240,.85); }
 
 /* ---------- instagram ---------- */
 .ig {
@@ -353,7 +358,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
 
 /* ---------- tablet apaisada ---------- */
 @media (max-width: 1024px) {
-  .press-grid { grid-template-columns: repeat(4, 1fr); }
+  .press-grid { grid-template-columns: repeat(5, 1fr); }
   /* La franja "DESLIZA" se cruzaba con el titular en pantallas estrechas */
   .scroll-hint { display: none; }
 }

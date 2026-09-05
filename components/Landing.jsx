@@ -175,7 +175,6 @@ export default function Landing({ posts = [] }) {
         <div className="press-in">
           <div className="press-head">
             <span className="eyebrow">02 &mdash; {t.pressLabel}</span>
-            <span className="note">{t.pressNote}</span>
           </div>
           <div className="press-grid">
             {PARTNERS.map((p) => (

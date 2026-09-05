@@ -243,9 +243,9 @@ export default function Landing({ posts = [] }) {
           </div>
           <div className="foot-col">
             <span>{t.footLegal}</span>
-            <a href="#">{t.legalTerms}</a>
-            <a href="#">{t.legalPrivacy}</a>
-            <a href="#">{t.legalCookies}</a>
+            <a href="/terminos">{t.legalTerms}</a>
+            <a href="/aviso-legal">{t.legalNotice}</a>
+            <a href="/privacidad">{t.legalPrivacy}</a>
           </div>
         </div>
         <div className="foot-base">

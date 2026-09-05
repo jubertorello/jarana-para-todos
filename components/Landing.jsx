@@ -285,8 +285,7 @@ export default function Landing({ posts = [] }) {
                     {meta ? <span className="merch-meta">{meta}</span> : <span />}
                     {hay ? (
                       <span className="merch-ver">
-                        {t.merchSee} {fotos.length}{" "}
-                        {fotos.length === 1 ? t.merchPhoto : t.merchPhotos}
+                        {t.merchSee}
                         <i aria-hidden="true">&#8594;</i>
                       </span>
                     ) : null}

@@ -372,8 +372,7 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
 }
 .merch-meta {
   font: 500 9px/1.4 "Montserrat", Helvetica, sans-serif;
-  /* .24em partia "EDICION 2024 - AGOTADA" en dos al convivir con el CTA */
-  letter-spacing: .16em; text-transform: uppercase; color: rgba(244,243,240,.3);
+  letter-spacing: .2em; text-transform: uppercase; color: rgba(244,243,240,.3);
 }
 /* Llamada a la accion explicita: el numero suelto no decia que fuese
    pinchable. Va dentro del boton, no es un enlace aparte. */

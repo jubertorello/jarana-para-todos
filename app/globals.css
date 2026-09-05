@@ -366,11 +366,29 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
   margin: 0; font-size: 13px; line-height: 1.7; color: rgba(244,243,240,.55);
   text-wrap: pretty;
 }
-.merch-meta {
-  margin-top: 3px;
-  font: 500 9px/1.4 "Montserrat", Helvetica, sans-serif;
-  letter-spacing: .24em; text-transform: uppercase; color: rgba(244,243,240,.3);
+.merch-pie {
+  margin-top: 4px; display: flex; align-items: baseline;
+  justify-content: space-between; gap: 8px 14px; flex-wrap: wrap;
 }
+.merch-meta {
+  font: 500 9px/1.4 "Montserrat", Helvetica, sans-serif;
+  /* .24em partia "EDICION 2024 - AGOTADA" en dos al convivir con el CTA */
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(244,243,240,.3);
+}
+/* Llamada a la accion explicita: el numero suelto no decia que fuese
+   pinchable. Va dentro del boton, no es un enlace aparte. */
+.merch-ver {
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  font: 700 9px/1.4 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  color: rgba(244,243,240,.62); transition: color .25s;
+}
+.merch-ver i {
+  font-style: normal; font-size: 12px; line-height: 1;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1);
+}
+button.merch-card:hover .merch-ver { color: var(--yellow); }
+button.merch-card:hover .merch-ver i { transform: translateX(3px); }
 
 @media (max-width: 1000px) {
   .merch-grid { grid-template-columns: repeat(2, 1fr); }
@@ -384,16 +402,6 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
   .merch-shot { aspect-ratio: 4 / 5; }
   .merch-txt { padding: 18px 16px 20px; }
   .merch-txt p { font-size: 12.5px; }
-}
-
-/* contador de fotos sobre la miniatura */
-.merch-count {
-  position: absolute; right: 10px; top: 10px; z-index: 2;
-  min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px;
-  background: rgba(8,9,10,.72); backdrop-filter: blur(6px);
-  display: flex; align-items: center; justify-content: center;
-  font: 700 10px/1 "Montserrat", Helvetica, sans-serif;
-  color: rgba(244,243,240,.85);
 }
 
 /* ---------- visor de fotos ---------- */

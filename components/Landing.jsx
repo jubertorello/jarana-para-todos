@@ -274,7 +274,6 @@ export default function Landing({ posts = [] }) {
                       <i>900&times;1125</i>
                     </span>
                   )}
-                  {fotos.length > 1 ? <b className="merch-count">{fotos.length}</b> : null}
                 </div>
                 <div className="merch-txt">
                   <div className="merch-h">
@@ -282,7 +281,16 @@ export default function Landing({ posts = [] }) {
                     <i aria-hidden="true" />
                   </div>
                   <p>{m.d}</p>
-                  {meta ? <span className="merch-meta">{meta}</span> : null}
+                  <div className="merch-pie">
+                    {meta ? <span className="merch-meta">{meta}</span> : <span />}
+                    {hay ? (
+                      <span className="merch-ver">
+                        {t.merchSee} {fotos.length}{" "}
+                        {fotos.length === 1 ? t.merchPhoto : t.merchPhotos}
+                        <i aria-hidden="true">&#8594;</i>
+                      </span>
+                    ) : null}
+                  </div>
                 </div>
               </Marco>
             );

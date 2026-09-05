@@ -178,14 +178,15 @@ export default function Landing({ posts = [] }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/logo-white.png" alt="" />
           </div>
-          <div className="stats">
-            {t.stats.map((s) => (
-              <div className="stat" key={s.k}>
-                <b>{s.v}</b>
-                <span>{s.k}</span>
-              </div>
-            ))}
-          </div>
+        </div>
+
+        <div className="stats">
+          {t.stats.map((s) => (
+            <div className="stat" key={s.k}>
+              <b>{s.v}</b>
+              <span>{s.k}</span>
+            </div>
+          ))}
         </div>
       </section>
 

@@ -18,9 +18,23 @@ const YOUTUBE_URL =
   process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://www.youtube.com/@JaranaParaTodos";
 const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
 const PLATFORM = "Fourvenues";
-const HERO_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/02_Jarana1_hhbxfv.mp4";
-const REEL_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/f_auto:video,q_auto/v1788512282/04_Jarana2_pwdw0x.mp4";
+const CLD_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/";
+// Los originales son 1080p y pesan 12 MB cada uno: en 4G eran 21 segundos
+// de pantalla negra. Cloudinary los recomprime al vuelo a 1280px, que en un
+// video de fondo oscurecido al 62% no se distingue, y quedan en ~3,5 MB.
+const VIDEO = (id) => CLD_VIDEO + "w_1280,q_auto:eco,br_900k,f_auto:video/" + id + ".mp4";
+// Fotograma fijo para que se vea algo desde el primer momento.
+const POSTER = (id) => CLD_VIDEO + "so_3,w_1280,f_jpg,q_auto/" + id + ".jpg";
 
+const HERO_ID = "v1788512282/02_Jarana1_hhbxfv";
+const REEL_ID = "v1788512282/04_Jarana2_pwdw0x";
+
+/**
+ * Reproduce el video en bucle y sin sonido, insistiendo si el navegador lo
+ * frena. Solo actua cuando el video esta a la vista: el de "La marca" esta
+ * muy por debajo del pliegue y, si arranca al cargar la pagina, se lleva
+ * ancho de banda que necesita el del hero.
+ */
 function useAutoplay() {
   const ref = useRef(null);
   useEffect(() => {
@@ -28,22 +42,53 @@ function useAutoplay() {
     if (!el) return;
     el.muted = true;
     el.defaultMuted = true;
+
+    let visible = false;
+    let watch = null;
     const go = () => {
+      if (!visible) return;
       el.muted = true;
       const p = el.play();
       if (p && p.catch) p.catch(() => {});
     };
-    go();
-    el.addEventListener("loadedmetadata", go);
-    el.addEventListener("canplay", go);
-    const watch = setInterval(() => { if (el.paused) go(); }, 1500);
-    window.addEventListener("pointerdown", go);
-    document.addEventListener("visibilitychange", go);
-    return () => {
+    const arrancar = () => {
+      if (watch) return;
+      go();
+      el.addEventListener("loadedmetadata", go);
+      el.addEventListener("canplay", go);
+      window.addEventListener("pointerdown", go);
+      document.addEventListener("visibilitychange", go);
+      watch = setInterval(() => { if (el.paused) go(); }, 1500);
+    };
+    const parar = () => {
+      if (!watch) return;
       clearInterval(watch);
+      watch = null;
+      el.removeEventListener("loadedmetadata", go);
+      el.removeEventListener("canplay", go);
       window.removeEventListener("pointerdown", go);
       document.removeEventListener("visibilitychange", go);
+      el.pause();
     };
+
+    // Si el navegador no soporta IntersectionObserver, se arranca sin mas:
+    // vale mas gastar ancho de banda que dejar el video congelado.
+    if (typeof IntersectionObserver === "undefined") {
+      visible = true;
+      arrancar();
+      return () => parar();
+    }
+
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        visible = e.isIntersecting;
+        if (visible) arrancar();
+        else parar();
+      },
+      { rootMargin: "200px" }
+    );
+    obs.observe(el);
+    return () => { obs.disconnect(); parar(); };
   }, []);
   return ref;
 }
@@ -110,7 +155,12 @@ export default function Landing({ posts = [] }) {
       </header>
 
       <section id="top" className="hero">
-        <video ref={heroRef} src={HERO_VIDEO} autoPlay loop muted playsInline preload="auto" />
+        <video
+          ref={heroRef}
+          src={VIDEO(HERO_ID)}
+          poster={POSTER(HERO_ID)}
+          autoPlay loop muted playsInline preload="auto"
+        />
         <div className="veil-1" />
         <div className="veil-2" />
         <div className="hero-body">
@@ -176,7 +226,12 @@ export default function Landing({ posts = [] }) {
 
         <div className="col">
           <div className="reel">
-            <video ref={reelRef} src={REEL_VIDEO} autoPlay loop muted playsInline preload="auto" />
+            <video
+              ref={reelRef}
+              src={VIDEO(REEL_ID)}
+              poster={POSTER(REEL_ID)}
+              loop muted playsInline preload="none"
+            />
             <div className="veil" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/logo-white.png" alt="" />

@@ -243,13 +243,13 @@ a:hover { color: var(--yellow); }
    ciudades, para que las dos bandas no parezcan la misma. */
 .pmarquee { overflow: hidden; border-top: 1px solid var(--line); }
 .pmarquee-track { display: flex; width: max-content; animation: jmarqrev 54s linear infinite; }
-.pmarquee-run { display: flex; align-items: center; gap: 52px; padding-right: 52px; }
+.pmarquee-run { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
 .pmarquee-run span {
-  display: flex; align-items: center; gap: 52px;
-  font: 500 13px/1 "Montserrat", Helvetica, sans-serif;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: rgba(244,243,240,.62); white-space: nowrap;
-  padding: 26px 0;
+  display: flex; align-items: center; gap: 64px;
+  font: 500 16px/1 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(244,243,240,.7); white-space: nowrap;
+  padding: 40px 0;
 }
 .pmarquee-run span i {
   width: 5px; height: 5px; border-radius: 50%;
@@ -261,7 +261,7 @@ a:hover { color: var(--yellow); }
    cuadrados la altura, con lo que pesan parecido en la fila.
    El blanco los iguala sobre el fondo oscuro. */
 .pmarquee-run span img {
-  height: var(--h, 30px); max-width: 155px; width: auto;
+  height: var(--h, 40px); max-width: 220px; width: auto;
   object-fit: contain; display: block; flex: none;
   filter: brightness(0) invert(1);
   opacity: .62; transition: opacity .3s;
@@ -602,9 +602,9 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .marquee { padding: 15px 0; }
   .marquee-run { gap: 30px; padding-right: 30px; }
   .marquee-run span { gap: 30px; font-size: 10px; letter-spacing: .2em; }
-  .pmarquee-run { gap: 34px; padding-right: 34px; }
-  .pmarquee-run span { gap: 34px; font-size: 11.5px; padding: 20px 0; }
-  .pmarquee-run span img { height: calc(var(--h, 30px) * .82); max-width: 125px; }
+  .pmarquee-run { gap: 40px; padding-right: 40px; }
+  .pmarquee-run span { gap: 40px; font-size: 13px; padding: 28px 0; }
+  .pmarquee-run span img { height: calc(var(--h, 40px) * .78); max-width: 165px; }
 
   .casa { padding: 64px 20px 56px; }
   .col { gap: 26px; }

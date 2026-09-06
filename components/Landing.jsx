@@ -195,10 +195,17 @@ export default function Landing({ posts = [] }) {
           <div className="press-head">
             <span className="eyebrow">02 &mdash; {t.pressLabel}</span>
           </div>
-          <div className="press-grid">
-            {PARTNERS.map((p) => (
-              <div className="slot" key={p}>
-                <span>{p}</span>
+        </div>
+        <div className="pmarquee">
+          <div className="pmarquee-track">
+            {[0, 1].map((run) => (
+              <div className="pmarquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
+                {PARTNERS.map((p) => (
+                  <span key={p}>
+                    {p}
+                    <i />
+                  </span>
+                ))}
               </div>
             ))}
           </div>

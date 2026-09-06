@@ -19,10 +19,18 @@ const YOUTUBE_URL =
 const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
 const PLATFORM = "Fourvenues";
 const CLD_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/";
-// Los originales son 1080p y pesan 12 MB cada uno: en 4G eran 21 segundos
-// de pantalla negra. Cloudinary los recomprime al vuelo a 1280px, que en un
-// video de fondo oscurecido al 62% no se distingue, y quedan en ~3,5 MB.
-const VIDEO = (id) => CLD_VIDEO + "w_1280,q_auto:eco,br_900k,f_auto:video/" + id + ".mp4";
+// Sin tope de bitrate: br_900k dejaba el metraje de fiesta borroso. Y a
+// 1920px Cloudinary no ahorra nada (11,99 frente a 11,98 MB), porque el
+// original ya viene bien codificado; el unico ahorro real es bajar ancho.
+// Por eso se sirven dos versiones y decide el navegador: en movil, donde
+// la pantalla es estrecha y los datos caros, una mas ligera; en pantallas
+// grandes una que no se vea estirada.
+// En movil el hero es vertical y el video se recorta por altura, asi que lo
+// que manda no es el ancho sino los pixeles verticales: a w_1100 solo hay
+// 618px de alto y habria que estirarlos hasta los 844 de la pantalla.
+// w_1400 deja 787, practicamente sin estirar, por 1,3 MB mas.
+const VIDEO_ANCHO = (id) => CLD_VIDEO + "w_1600,q_auto,f_auto:video/" + id + ".mp4";
+const VIDEO_MOVIL = (id) => CLD_VIDEO + "w_1400,q_auto,f_auto:video/" + id + ".mp4";
 // Fotograma fijo para que se vea algo desde el primer momento.
 const POSTER = (id) => CLD_VIDEO + "so_3,w_1280,f_jpg,q_auto/" + id + ".jpg";
 
@@ -157,10 +165,12 @@ export default function Landing({ posts = [] }) {
       <section id="top" className="hero">
         <video
           ref={heroRef}
-          src={VIDEO(HERO_ID)}
           poster={POSTER(HERO_ID)}
           autoPlay loop muted playsInline preload="auto"
-        />
+        >
+          <source src={VIDEO_MOVIL(HERO_ID)} media="(max-width: 820px)" type="video/mp4" />
+          <source src={VIDEO_ANCHO(HERO_ID)} type="video/mp4" />
+        </video>
         <div className="veil-1" />
         <div className="veil-2" />
         <div className="hero-body">
@@ -228,10 +238,12 @@ export default function Landing({ posts = [] }) {
           <div className="reel">
             <video
               ref={reelRef}
-              src={VIDEO(REEL_ID)}
               poster={POSTER(REEL_ID)}
               loop muted playsInline preload="none"
-            />
+            >
+              <source src={VIDEO_MOVIL(REEL_ID)} media="(max-width: 820px)" type="video/mp4" />
+              <source src={VIDEO_ANCHO(REEL_ID)} type="video/mp4" />
+            </video>
             <div className="veil" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/logo-white.png" alt="" />

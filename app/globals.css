@@ -255,6 +255,14 @@ a:hover { color: var(--yellow); }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--green); display: block; flex: none;
 }
+/* Los logos se normalizan a blanco y a una misma altura optica: llegan de
+   fuentes distintas y hay que evitar que unos pesen mas que otros. */
+.pmarquee-run span img {
+  height: 26px; width: auto; display: block; flex: none;
+  filter: brightness(0) invert(1);
+  opacity: .62; transition: opacity .3s;
+}
+.pmarquee-run span img:hover { opacity: 1; }
 
 /* ---------- instagram ---------- */
 .ig {
@@ -592,6 +600,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .marquee-run span { gap: 30px; font-size: 10px; letter-spacing: .2em; }
   .pmarquee-run { gap: 34px; padding-right: 34px; }
   .pmarquee-run span { gap: 34px; font-size: 11.5px; padding: 20px 0; }
+  .pmarquee-run span img { height: 22px; }
 
   .casa { padding: 64px 20px 56px; }
   .col { gap: 26px; }

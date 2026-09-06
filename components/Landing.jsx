@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { COPY, CITIES, PARTNERS, MERCH_MEDIA, MERCH_APILADAS, cldThumb, cldFull } from "@/lib/copy";
+import {
+  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS,
+  cldThumb, cldFull, cldLogo
+} from "@/lib/copy";
 
 const TICKET_URL = process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
@@ -230,7 +233,12 @@ export default function Landing({ posts = [] }) {
               <div className="pmarquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
                 {PARTNERS.map((p) => (
                   <span key={p}>
-                    {p}
+                    {PARTNER_LOGOS[p] ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={cldLogo(PARTNER_LOGOS[p])} alt={p} loading="lazy" />
+                    ) : (
+                      p
+                    )}
                     <i />
                   </span>
                 ))}

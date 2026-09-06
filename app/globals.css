@@ -255,10 +255,14 @@ a:hover { color: var(--yellow); }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--green); display: block; flex: none;
 }
-/* Los logos se normalizan a blanco y a una misma altura optica: llegan de
-   fuentes distintas y hay que evitar que unos pesen mas que otros. */
+/* Los logos llegan con proporciones muy distintas (uno 6:1, otro 2:1), y
+   normalizar solo por altura deja las letras del mas cuadrado diminutas.
+   Se limitan las dos dimensiones: los apaisados los frena el ancho y los
+   cuadrados la altura, con lo que pesan parecido en la fila.
+   El blanco los iguala sobre el fondo oscuro. */
 .pmarquee-run span img {
-  height: 26px; width: auto; display: block; flex: none;
+  max-height: 34px; max-width: 155px;
+  height: auto; width: auto; display: block; flex: none;
   filter: brightness(0) invert(1);
   opacity: .62; transition: opacity .3s;
 }
@@ -279,15 +283,15 @@ a:hover { color: var(--yellow); }
   width: 6px; height: 6px; border-radius: 50%; background: var(--green);
   display: block; box-shadow: 0 0 0 4px rgba(0,129,45,.18);
 }
+/* Mismo tratamiento que el boton de entradas */
 .btn-follow {
   display: inline-flex; align-items: center; gap: 11px;
-  background: var(--green); border: 1px solid var(--green);
-  border-radius: 999px; padding: 14px 22px; color: var(--paper);
+  background: var(--paper); border: 1px solid var(--paper);
+  border-radius: 999px; padding: 14px 22px; color: var(--ink);
   font: 700 10px/1 "Montserrat", Helvetica, sans-serif;
   letter-spacing: .2em; text-transform: uppercase;
   transition: background .3s, border-color .3s, color .3s, transform .3s;
 }
-/* En hover pasa al amarillo, que con tinta da 15:1 */
 .btn-follow:hover {
   background: var(--yellow); border-color: var(--yellow);
   color: var(--ink); transform: translateY(-1px);
@@ -600,7 +604,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .marquee-run span { gap: 30px; font-size: 10px; letter-spacing: .2em; }
   .pmarquee-run { gap: 34px; padding-right: 34px; }
   .pmarquee-run span { gap: 34px; font-size: 11.5px; padding: 20px 0; }
-  .pmarquee-run span img { height: 22px; }
+  .pmarquee-run span img { max-height: 28px; max-width: 125px; }
 
   .casa { padding: 64px 20px 56px; }
   .col { gap: 26px; }

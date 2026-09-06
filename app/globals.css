@@ -261,8 +261,8 @@ a:hover { color: var(--yellow); }
    cuadrados la altura, con lo que pesan parecido en la fila.
    El blanco los iguala sobre el fondo oscuro. */
 .pmarquee-run span img {
-  max-height: 34px; max-width: 155px;
-  height: auto; width: auto; display: block; flex: none;
+  height: var(--h, 30px); max-width: 155px; width: auto;
+  object-fit: contain; display: block; flex: none;
   filter: brightness(0) invert(1);
   opacity: .62; transition: opacity .3s;
 }
@@ -604,7 +604,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .marquee-run span { gap: 30px; font-size: 10px; letter-spacing: .2em; }
   .pmarquee-run { gap: 34px; padding-right: 34px; }
   .pmarquee-run span { gap: 34px; font-size: 11.5px; padding: 20px 0; }
-  .pmarquee-run span img { max-height: 28px; max-width: 125px; }
+  .pmarquee-run span img { height: calc(var(--h, 30px) * .82); max-width: 125px; }
 
   .casa { padding: 64px 20px 56px; }
   .col { gap: 26px; }

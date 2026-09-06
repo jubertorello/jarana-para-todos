@@ -235,7 +235,12 @@ export default function Landing({ posts = [] }) {
                   <span key={p}>
                     {PARTNER_LOGOS[p] ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={cldLogo(PARTNER_LOGOS[p])} alt={p} loading="lazy" />
+                      <img
+                        src={cldLogo(PARTNER_LOGOS[p].id)}
+                        alt={p}
+                        loading="lazy"
+                        style={{ "--h": PARTNER_LOGOS[p].h + "px" }}
+                      />
                     ) : (
                       p
                     )}

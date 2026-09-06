@@ -190,32 +190,10 @@ export default function Landing({ posts = [] }) {
         </div>
       </section>
 
-      <section className="press">
-        <div className="press-in">
-          <div className="press-head">
-            <span className="eyebrow">02 &mdash; {t.pressLabel}</span>
-          </div>
-        </div>
-        <div className="pmarquee">
-          <div className="pmarquee-track">
-            {[0, 1].map((run) => (
-              <div className="pmarquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
-                {PARTNERS.map((p) => (
-                  <span key={p}>
-                    {p}
-                    <i />
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="instagram" className="ig">
         <div className="ig-head">
           <div className="col" style={{ gap: 20 }}>
-            <span className="eyebrow">03 &mdash; {t.igLabel}</span>
+            <span className="eyebrow">02 &mdash; {t.igLabel}</span>
             <h2 className="titular">{HANDLE}</h2>
             <span className="ig-live">
               <i />
@@ -237,6 +215,28 @@ export default function Landing({ posts = [] }) {
               )}
             </a>
           ))}
+        </div>
+      </section>
+
+      <section className="press">
+        <div className="press-in">
+          <div className="press-head">
+            <span className="eyebrow">03 &mdash; {t.pressLabel}</span>
+          </div>
+        </div>
+        <div className="pmarquee">
+          <div className="pmarquee-track">
+            {[0, 1].map((run) => (
+              <div className="pmarquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
+                {PARTNERS.map((p) => (
+                  <span key={p}>
+                    {p}
+                    <i />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

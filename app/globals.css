@@ -261,6 +261,8 @@ a:hover { color: var(--yellow); }
   max-width: 1240px; margin: 0 auto;
   padding: clamp(72px, 10vw, 110px) clamp(20px, 4vw, 32px) clamp(80px, 10vw, 120px);
   display: flex; flex-direction: column; gap: 46px;
+  /* Al pasar por delante de partners, queda pegada a "La marca" */
+  border-top: 1px solid var(--line);
 }
 .ig-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
 .ig-head h2 { margin: 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.1; }

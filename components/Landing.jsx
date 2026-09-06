@@ -194,30 +194,32 @@ export default function Landing({ posts = [] }) {
       </section>
 
       <section id="instagram" className="ig">
-        <div className="ig-head">
-          <div className="col" style={{ gap: 20 }}>
-            <span className="eyebrow">02 &mdash; {t.igLabel}</span>
-            <h2 className="titular">{HANDLE}</h2>
-            <span className="ig-live">
-              <i />
-              {t.igSync}
-            </span>
-          </div>
-          <a className="btn-follow" href={IG_URL} target="_blank" rel="noopener">
-            {t.igFollow} <span>&#8599;</span>
-          </a>
-        </div>
-        <div className="ig-grid">
-          {posts.map((po) => (
-            <a className="ig-cell" href={po.url} target="_blank" rel="noopener" key={po.id}>
-              {po.src ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={po.src} alt={po.alt} loading="lazy" />
-              ) : (
-                <span>{po.label}</span>
-              )}
+        <div className="ig-in">
+          <div className="ig-head">
+            <div className="col" style={{ gap: 20 }}>
+              <span className="eyebrow">02 &mdash; {t.igLabel}</span>
+              <h2 className="titular">{HANDLE}</h2>
+              <span className="ig-live">
+                <i />
+                {t.igSync}
+              </span>
+            </div>
+            <a className="btn-follow" href={IG_URL} target="_blank" rel="noopener">
+              {t.igFollow} <span>&#8599;</span>
             </a>
-          ))}
+          </div>
+          <div className="ig-grid">
+            {posts.map((po) => (
+              <a className="ig-cell" href={po.url} target="_blank" rel="noopener" key={po.id}>
+                {po.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={po.src} alt={po.alt} loading="lazy" />
+                ) : (
+                  <span>{po.label}</span>
+                )}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -255,65 +257,67 @@ export default function Landing({ posts = [] }) {
 
 
       <section id="merch" className="merch">
-        <div className="merch-head">
-          <span className="eyebrow">04 &mdash; {t.merchLabel}</span>
-          <h2 className="titular">{t.merchTitle}</h2>
-          <p className="merch-note">{t.merchNote}</p>
-        </div>
-        <div className="merch-grid">
-          {t.merch.map((m) => {
-            const fotos = MERCH_MEDIA[m.k] || [];
-            const hay = fotos.length > 0;
-            const Marco = hay ? "button" : "div";
-            const apilada = MERCH_APILADAS.includes(m.k);
-            // El pie de cromos sale del propio numero de fotos, para que no
-            // pueda quedar desfasado si se anaden o quitan piezas.
-            const meta = m.meta || (hay ? `${fotos.length} ${t.merchChars}` : null);
-            return (
-              <Marco
-                className="merch-card"
-                key={m.k}
-                type={hay ? "button" : undefined}
-                onClick={hay ? () => setGaleria({ k: m.k, t: m.t, fotos, i: 0 }) : undefined}
-                aria-label={hay ? `${m.t}: ver ${fotos.length} fotos` : undefined}
-              >
-                <div className="merch-shot" data-pendiente={!hay} data-apilada={apilada || undefined}>
-                  {hay ? (
-                    apilada ? (
-                      fotos.map((f, n) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img key={f} src={cldThumb(f)} alt={`${m.t} ${n + 1}`} loading="lazy" />
-                      ))
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={cldThumb(fotos[0])} alt={m.t} loading="lazy" />
-                    )
-                  ) : (
-                    <span>
-                      {t.merchSoon}
-                      <i>900&times;1125</i>
-                    </span>
-                  )}
-                </div>
-                <div className="merch-txt">
-                  <div className="merch-h">
-                    <h3>{m.t}</h3>
-                    <i aria-hidden="true" />
-                  </div>
-                  <p>{m.d}</p>
-                  <div className="merch-pie">
-                    {meta ? <span className="merch-meta">{meta}</span> : <span />}
+        <div className="merch-in">
+          <div className="merch-head">
+            <span className="eyebrow">04 &mdash; {t.merchLabel}</span>
+            <h2 className="titular">{t.merchTitle}</h2>
+            <p className="merch-note">{t.merchNote}</p>
+          </div>
+          <div className="merch-grid">
+            {t.merch.map((m) => {
+              const fotos = MERCH_MEDIA[m.k] || [];
+              const hay = fotos.length > 0;
+              const Marco = hay ? "button" : "div";
+              const apilada = MERCH_APILADAS.includes(m.k);
+              // El pie de cromos sale del propio numero de fotos, para que no
+              // pueda quedar desfasado si se anaden o quitan piezas.
+              const meta = m.meta || (hay ? `${fotos.length} ${t.merchChars}` : null);
+              return (
+                <Marco
+                  className="merch-card"
+                  key={m.k}
+                  type={hay ? "button" : undefined}
+                  onClick={hay ? () => setGaleria({ k: m.k, t: m.t, fotos, i: 0 }) : undefined}
+                  aria-label={hay ? `${m.t}: ver ${fotos.length} fotos` : undefined}
+                >
+                  <div className="merch-shot" data-pendiente={!hay} data-apilada={apilada || undefined}>
                     {hay ? (
-                      <span className="merch-ver">
-                        {t.merchSee}
-                        <i aria-hidden="true">&#8594;</i>
+                      apilada ? (
+                        fotos.map((f, n) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={f} src={cldThumb(f)} alt={`${m.t} ${n + 1}`} loading="lazy" />
+                        ))
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={cldThumb(fotos[0])} alt={m.t} loading="lazy" />
+                      )
+                    ) : (
+                      <span>
+                        {t.merchSoon}
+                        <i>900&times;1125</i>
                       </span>
-                    ) : null}
+                    )}
                   </div>
-                </div>
-              </Marco>
-            );
-          })}
+                  <div className="merch-txt">
+                    <div className="merch-h">
+                      <h3>{m.t}</h3>
+                      <i aria-hidden="true" />
+                    </div>
+                    <p>{m.d}</p>
+                    <div className="merch-pie">
+                      {meta ? <span className="merch-meta">{meta}</span> : <span />}
+                      {hay ? (
+                        <span className="merch-ver">
+                          {t.merchSee}
+                          <i aria-hidden="true">&#8594;</i>
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                </Marco>
+              );
+            })}
+          </div>
         </div>
       </section>
 

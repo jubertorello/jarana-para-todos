@@ -241,7 +241,7 @@ a:hover { color: var(--yellow); }
    ultima fila incompleta, que en un muro de partners lee bien. */
 /* Los partners pasan de rejilla a carrusel. En sentido contrario al de
    ciudades, para que las dos bandas no parezcan la misma. */
-.pmarquee { overflow: hidden; border-top: 1px solid var(--line); }
+.pmarquee { overflow: hidden; }
 .pmarquee-track { display: flex; width: max-content; animation: jmarqrev 54s linear infinite; }
 .pmarquee-run { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
 .pmarquee-run span {

@@ -148,7 +148,7 @@ export default function Landing({ posts = [] }) {
       <header className="nav" data-scrolled={scrolled}>
         <a href="#top">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/logo-white.png" alt="Jarana Para Todos" />
+          <img src="/assets/logo-white.webp" alt="Jarana Para Todos" />
         </a>
         <div className="nav-right">
           <button className="lang" onClick={() => setLang(lang === "es" ? "en" : "es")} aria-label="Idioma">
@@ -246,7 +246,7 @@ export default function Landing({ posts = [] }) {
             </video>
             <div className="veil" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/logo-white.png" alt="" />
+            <img src="/assets/logo-white.webp" alt="" />
           </div>
         </div>
 
@@ -397,7 +397,7 @@ export default function Landing({ posts = [] }) {
               <span className="sheen" />
               <span className="core">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/globe-white.png" alt="" />
+                <img src="/assets/globe-white.webp" alt="" />
               </span>
             </div>
             <p className="foot-note">{t.footNote}</p>

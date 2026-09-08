@@ -18,7 +18,7 @@ const YOUTUBE_URL =
   process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://www.youtube.com/@JaranaParaTodos";
 const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
 const PLATFORM = "Fourvenues";
-const CLD_VIDEO = "https://res.cloudinary.com/djqtkbyez/video/upload/";
+const CLD_VIDEO = "https://res.cloudinary.com/rmrm61ee/video/upload/";
 // Sin tope de bitrate: br_900k dejaba el metraje de fiesta borroso. Y a
 // 1920px Cloudinary no ahorra nada (11,99 frente a 11,98 MB), porque el
 // original ya viene bien codificado; el unico ahorro real es bajar ancho.
@@ -34,8 +34,8 @@ const VIDEO_MOVIL = (id) => CLD_VIDEO + "w_1400,q_auto,f_auto:video/" + id + ".m
 // Fotograma fijo para que se vea algo desde el primer momento.
 const POSTER = (id) => CLD_VIDEO + "so_3,w_1280,f_jpg,q_auto/" + id + ".jpg";
 
-const HERO_ID = "v1788512282/02_Jarana1_hhbxfv";
-const REEL_ID = "v1788512282/04_Jarana2_pwdw0x";
+const HERO_ID = "02_Jarana1";
+const REEL_ID = "04_Jarana2";
 
 /**
  * Reproduce el video en bucle y sin sonido, insistiendo si el navegador lo

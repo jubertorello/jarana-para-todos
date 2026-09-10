@@ -162,7 +162,7 @@ a:hover { color: var(--yellow); }
 /* ---------- marquee ---------- */
 /* Banda verde de marca. Papel sobre verde da 4.53:1, pasa AA. */
 .marquee {
-  padding: 20px 0; overflow: hidden; background: var(--green);
+  padding: 22px 0; overflow: hidden; background: var(--green);
   border-top: 1px solid rgba(8,9,10,.18); border-bottom: 1px solid rgba(8,9,10,.18);
 }
 .marquee-track { display: flex; width: max-content; animation: jmarq 46s linear infinite; }
@@ -184,22 +184,17 @@ a:hover { color: var(--yellow); }
   /* Dos columnas fijas: con auto-fit, al sumar .stats como tercer hijo
      se generaba una tercera columna y el vídeo se quedaba estrecho. */
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(44px, 6vw, 80px); align-items: start;
+  /* El texto se centra contra el video: al quitar las credenciales la
+     columna izquierda quedo 226px mas corta y el hueco leia como error. */
+  gap: clamp(44px, 6vw, 80px); align-items: center;
 }
 .col { display: flex; flex-direction: column; gap: 34px; }
 .casa h2 {
   margin: 0; font-weight: 700; font-size: clamp(26px, 2.7vw, 40px);
   line-height: 1.16; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance;
 }
+.about-cierre { color: var(--paper) !important; font-weight: 700; }
 .casa p { margin: 0; max-width: 58ch; font-size: 15.5px; line-height: 1.8; color: rgba(244,243,240,.64); text-wrap: pretty; }
-.creds { display: flex; flex-direction: column; margin-top: 6px; border-top: 1px solid rgba(244,243,240,.12); }
-.creds li {
-  display: flex; align-items: baseline; gap: 18px; padding: 18px 2px;
-  border-bottom: 1px solid rgba(244,243,240,.12); list-style: none;
-}
-.creds { padding: 0; }
-.creds li b { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: none; transform: translateY(-2px); }
-.creds li span { font-size: 13.5px; line-height: 1.55; color: rgba(244,243,240,.8); }
 
 .reel {
   position: relative; aspect-ratio: 4 / 5; border-radius: 2px; overflow: hidden;
@@ -591,7 +586,7 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
 
 /* ---------- tablet vertical: una sola columna ---------- */
 @media (max-width: 900px) {
-  .casa { grid-template-columns: 1fr; gap: clamp(40px, 6vw, 56px); }
+  .casa { grid-template-columns: 1fr; gap: clamp(40px, 6vw, 56px); align-items: start; }
   /* En columna unica, el 4/5 vertical dejaba un reel altisimo y un hueco
      muerto al lado. En apaisado ocupa todo el ancho sin desbordar. */
   .reel { aspect-ratio: 16 / 10; }
@@ -646,8 +641,6 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .col { gap: 26px; }
   .casa h2 { font-size: clamp(23px, 6.6vw, 30px); }
   .casa p { font-size: 14.5px; line-height: 1.7; }
-  .creds li { padding: 15px 2px; gap: 14px; }
-  .creds li span { font-size: 13px; }
   /* En movil vuelve al formato vertical, que es el nativo del video */
   .reel { aspect-ratio: 3 / 4; }
   .reel img { left: 18px; bottom: 18px; width: 68px; }

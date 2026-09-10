@@ -221,20 +221,6 @@ export default function Landing({ posts = [] }) {
         </div>
       </section>
 
-      <div className="marquee">
-        <div className="marquee-track">
-          {[0, 1].map((run) => (
-            <div className="marquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
-              {CITIES.map((c) => (
-                <span key={c}>
-                  {c}
-                  <i />
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
 
       <section id="comunidad" className="comunidad">
         <div className="com-in">
@@ -288,14 +274,8 @@ export default function Landing({ posts = [] }) {
           <span className="eyebrow">02 &mdash; {t.aboutLabel}</span>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
-          <ul className="creds">
-            {t.creds.map((cr) => (
-              <li key={cr}>
-                <b />
-                <span>{cr}</span>
-              </li>
-            ))}
-          </ul>
+          <p>{t.aboutP2}</p>
+          <p className="about-cierre">{t.aboutP3}</p>
         </div>
 
         <div className="col">
@@ -324,6 +304,21 @@ export default function Landing({ posts = [] }) {
         </div>
       </section>
 
+
+      <div className="marquee">
+        <div className="marquee-track">
+          {[0, 1].map((run) => (
+            <div className="marquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
+              {CITIES.map((c) => (
+                <span key={c}>
+                  {c}
+                  <i />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       <section className="press">
         <div className="press-in">

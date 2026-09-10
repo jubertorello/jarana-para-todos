@@ -11,6 +11,9 @@ const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^
 const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");
 const WA_URL = "https://wa.me/" + WHATSAPP;
+// Grupo de WhatsApp. Mientras no exista el enlace del grupo, apunta al chat
+// directo para que el boton no quede muerto.
+const WA_GRUPO = process.env.NEXT_PUBLIC_WHATSAPP_GRUPO || WA_URL;
 const SPOTIFY_URL =
   process.env.NEXT_PUBLIC_SPOTIFY_URL ||
   "https://open.spotify.com/user/31al7dfx35rglpgvuvb5qtgxif5q";
@@ -43,6 +46,20 @@ const REEL_ID = "04_Jarana2";
  * muy por debajo del pliegue y, si arranca al cargar la pagina, se lleva
  * ancho de banda que necesita el del hero.
  */
+const IconoInstagram = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" strokeWidth="1.7" />
+    <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.7" />
+    <circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" />
+  </svg>
+);
+
+const IconoWhatsApp = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+    <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-1.2-.4-2.7-1.3-3.9-2.6-1-1.1-1.7-2.3-2-3.2-.2-.7-.2-1.3 0-1.8.2-.5.6-.9.9-1.1.2-.2.5-.2.7-.2h.5c.2 0 .4 0 .6.4l.7 1.6c.1.2 0 .4-.1.6l-.4.5c-.1.2-.2.3 0 .6.3.5.7 1 1.2 1.4.5.4 1 .7 1.5.9.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .3 0 .8-.1 1.1Z" />
+  </svg>
+);
+
 function useAutoplay() {
   const ref = useRef(null);
   useEffect(() => {
@@ -219,9 +236,56 @@ export default function Landing({ posts = [] }) {
         </div>
       </div>
 
+      <section id="comunidad" className="comunidad">
+        <div className="com-in">
+          <div className="com-head">
+            <span className="eyebrow">01 &mdash; {t.comLabel}</span>
+            <h2 className="titular">{t.comTitulo}</h2>
+          </div>
+
+          {/* Carrete horizontal: el 98% de la audiencia entra por movil */}
+          <div className="ig-carrete" role="list">
+            {posts.map((po) => (
+              <a
+                className="ig-cromo"
+                href={po.url}
+                target="_blank"
+                rel="noopener"
+                key={po.id}
+                role="listitem"
+              >
+                {po.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={po.src} alt={po.alt} loading="lazy" />
+                ) : (
+                  <span>{po.label}</span>
+                )}
+              </a>
+            ))}
+          </div>
+
+          <div className="com-accesos">
+            <a className="com-acceso" href={IG_URL} target="_blank" rel="noopener">
+              <i><IconoInstagram /></i>
+              <span>
+                <b>{t.comIgTitulo}</b>
+                <em>{t.comIgPie}</em>
+              </span>
+            </a>
+            <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
+              <i data-wa="true"><IconoWhatsApp /></i>
+              <span>
+                <b>{t.comWaTitulo}</b>
+                <em>{t.comWaPie}</em>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section id="casa" className="casa">
         <div className="col">
-          <span className="eyebrow">01 &mdash; {t.aboutLabel}</span>
+          <span className="eyebrow">02 &mdash; {t.aboutLabel}</span>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
           <ul className="creds">
@@ -260,35 +324,6 @@ export default function Landing({ posts = [] }) {
         </div>
       </section>
 
-      <section id="instagram" className="ig">
-        <div className="ig-in">
-          <div className="ig-head">
-            <div className="col" style={{ gap: 20 }}>
-              <span className="eyebrow">02 &mdash; {t.igLabel}</span>
-              <h2 className="titular">{HANDLE}</h2>
-              <span className="ig-live">
-                <i />
-                {t.igSync}
-              </span>
-            </div>
-            <a className="btn-follow" href={IG_URL} target="_blank" rel="noopener">
-              {t.igFollow} <span>&#8599;</span>
-            </a>
-          </div>
-          <div className="ig-grid">
-            {posts.map((po) => (
-              <a className="ig-cell" href={po.url} target="_blank" rel="noopener" key={po.id}>
-                {po.src ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={po.src} alt={po.alt} loading="lazy" />
-                ) : (
-                  <span>{po.label}</span>
-                )}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="press">
         <div className="press-in">

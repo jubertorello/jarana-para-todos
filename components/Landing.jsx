@@ -195,12 +195,52 @@ function useAutoplay() {
   return ref;
 }
 
+/* Revela los bloques segun entran en pantalla. La clase que los oculta se
+   pone desde aqui (js-rv en el <html>), asi que sin JS, sin
+   IntersectionObserver o con el movimiento reducido la pagina se ve entera
+   desde el primer momento. */
+function useRevelar() {
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    document.documentElement.classList.add("js-rv");
+    const piezas = Array.from(document.querySelectorAll(".rv"));
+
+    const obs = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("rv-on");
+          obs.unobserve(e.target);
+        });
+      },
+      // Se dispara un poco antes de llegar al borde, para que el bloque
+      // termine de entrar justo cuando lo estas mirando.
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.06 }
+    );
+    piezas.forEach((el) => obs.observe(el));
+
+    // Red de seguridad: si el observer no llega a disparar, lo que ya este
+    // en pantalla se muestra igualmente.
+    const red = setTimeout(() => {
+      piezas.forEach((el) => {
+        if (el.classList.contains("rv-on")) return;
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("rv-on");
+      });
+    }, 1400);
+
+    return () => { clearTimeout(red); obs.disconnect(); };
+  }, []);
+}
+
 export default function Landing({ posts = [] }) {
   const [lang, setLang] = useState("es");
   const [scrolled, setScrolled] = useState(false);
   const merchRef = useCarruselAuto();
   const heroRef = useAutoplay();
   const reelRef = useAutoplay();
+  useRevelar();
 
   useEffect(() => {
     const next = (navigator.language || "es").toLowerCase().startsWith("es") ? "es" : "en";
@@ -286,14 +326,14 @@ export default function Landing({ posts = [] }) {
 
       <section id="comunidad" className="comunidad">
         <div className="com-in">
-          <div className="com-head">
+          <div className="com-head rv">
             <span className="eyebrow"><b className="eyebrow-num">01</b> &mdash; {t.comLabel}</span>
             <h2 className="titular">{t.comTitulo}</h2>
           </div>
 
           {/* El acceso a Instagram encabeza el carrete, pegado a el, para que
               se entienda de un vistazo que las fotos vienen de ahi. */}
-          <div className="com-ig">
+          <div className="com-ig rv" style={{ "--d": ".08s" }}>
             <a className="com-acceso com-acceso-ig" href={IG_URL} target="_blank" rel="noopener">
               <i><IconoInstagram /></i>
               <span>
@@ -323,7 +363,7 @@ export default function Landing({ posts = [] }) {
             </div>
           </div>
 
-          <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
+          <a className="com-acceso rv" style={{ "--d": ".16s" }} href={WA_GRUPO} target="_blank" rel="noopener">
             <i><IconoWhatsApp /></i>
             <span>
               <b>{t.comWaTitulo}</b>
@@ -335,7 +375,7 @@ export default function Landing({ posts = [] }) {
       </section>
 
       <section id="casa" className="casa">
-        <div className="col">
+        <div className="col rv">
           <span className="eyebrow"><b className="eyebrow-num">02</b> &mdash; {t.aboutLabel}</span>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
@@ -343,7 +383,7 @@ export default function Landing({ posts = [] }) {
           <p className="about-cierre">{t.aboutP3}</p>
         </div>
 
-        <div className="col">
+        <div className="col rv" style={{ "--d": ".1s" }}>
           <div className="reel">
             <video
               ref={reelRef}
@@ -386,12 +426,12 @@ export default function Landing({ posts = [] }) {
 
       <section id="ventajas" className="ventajas">
         <div className="ven-in">
-          <div className="ven-head">
+          <div className="ven-head rv">
             <span className="eyebrow"><b className="eyebrow-num">03</b> &mdash; {t.venLabel}</span>
             <h2 className="titular">{t.venTitulo}</h2>
           </div>
 
-          <div className="mosaico">
+          <div className="mosaico rv">
             {MOSAICO.map((m, i) => (
               <figure className="mos-celda" key={i} style={{ gridArea: m.hueco }} data-pendiente={!m.id}>
                 {m.id ? (
@@ -404,13 +444,13 @@ export default function Landing({ posts = [] }) {
             ))}
           </div>
 
-          <p className="ven-texto">{t.venTexto}</p>
+          <p className="ven-texto rv">{t.venTexto}</p>
         </div>
 
         <div className="ven-in ven-partners">
           <span className="eyebrow">{t.pressLabel}</span>
         </div>
-        <div className="pmarquee">
+        <div className="pmarquee rv">
           <div className="pmarquee-track">
             {[0, 1].map((run) => (
               <div className="pmarquee-run" key={run} aria-hidden={run === 1 ? "true" : undefined}>
@@ -437,7 +477,7 @@ export default function Landing({ posts = [] }) {
 
         <div className="ven-in">
           <div className="ven-fichas">
-            <article className="ficha">
+            <article className="ficha rv">
               <div className="ficha-txt">
                 <h3>{t.carnetTitulo}</h3>
                   {/* Anverso y dorso, solo como muestra: no son pinchables */}
@@ -454,7 +494,7 @@ export default function Landing({ posts = [] }) {
                 {t.carnetCta}<i aria-hidden="true">&#8599;</i>
               </a>
             </article>
-            <article className="ficha">
+            <article className="ficha rv" style={{ "--d": ".1s" }}>
               <div className="ficha-txt">
                 <h3>{t.grupoTitulo}</h3>
                 <p>{t.grupoTexto}</p>
@@ -468,7 +508,7 @@ export default function Landing({ posts = [] }) {
         </div>
 
         <div className="ven-in ven-merch">
-          <div className="merch-head">
+          <div className="merch-head rv">
             <div className="merch-head-txt">
               <h3 className="ven-sub">{t.merchLabel}</h3>
               <p className="merch-desc">{t.merchDesc}</p>
@@ -496,7 +536,7 @@ export default function Landing({ posts = [] }) {
           {/* Tira con todas las fotos, pasando sola. Cada una conserva su
               formato (los cascos apaisados, los cromos verticales) y lleva
               la etiqueta de la pieza encima. No son pinchables. */}
-          <div className="merch-tira" ref={merchRef}>
+          <div className="merch-tira rv" ref={merchRef} style={{ "--d": ".08s" }}>
             {MERCH_TIRA.map((f) => {
               const pieza = t.merch.find((m) => m.k === f.k);
               return (
@@ -518,8 +558,8 @@ export default function Landing({ posts = [] }) {
 
       <section id="faq" className="faq">
         <div className="faq-in">
-          <span className="eyebrow"><b className="eyebrow-num">04</b> &mdash; {t.faqLabel}</span>
-          <ul className="faq-lista">
+          <span className="eyebrow rv"><b className="eyebrow-num">04</b> &mdash; {t.faqLabel}</span>
+          <ul className="faq-lista rv">
             {t.faq.map((f) => (
               <li key={f.p}>
                 <h3>{f.p}</h3>
@@ -533,10 +573,10 @@ export default function Landing({ posts = [] }) {
       <section id="cierre" className="cierre">
         <div className="cierre-in">
           <span className="eyebrow"><b className="eyebrow-num">05</b> &mdash; {t.cierreLabel}</span>
-          <h2>{t.cierreTitulo}</h2>
-          <p>{t.cierreTexto}</p>
+          <h2 className="rv">{t.cierreTitulo}</h2>
+          <p className="rv" style={{ "--d": ".08s" }}>{t.cierreTexto}</p>
           {/* La frase de marca cierra el circulo con el hero, rotulada */}
-          <p className="cierre-frase">
+          <p className="cierre-frase rv" style={{ "--d": ".18s" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={FRASE_CIERRE} alt={t.heroA + " " + t.heroB} width="900" height="567" />
           </p>

@@ -43,6 +43,44 @@ a:hover { color: var(--yellow); }
 @keyframes jfade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes jbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
+/* ---------- entrada de los bloques al hacer scroll ----------
+   .rv solo se oculta cuando el JS ha marcado el <html> con js-rv, para que
+   sin JS o sin IntersectionObserver la pagina se vea entera igualmente. */
+.js-rv .rv {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform;
+}
+.js-rv .rv.rv-on {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .72s cubic-bezier(.22, .61, .36, 1) var(--d, 0s),
+    transform .72s cubic-bezier(.22, .61, .36, 1) var(--d, 0s);
+}
+/* Una vez dentro ya no hace falta reservar capa de composicion. */
+.js-rv .rv.rv-on { will-change: auto; }
+
+/* Dentro de las listas, cada elemento entra un pelin despues que el anterior.
+   Solo en listas: aplicarlo a todos los hijos sumaba dos desplazamientos y el
+   movimiento se iba de madre. */
+.js-rv .faq-lista.rv-on > li,
+.js-rv .mosaico.rv-on > .mos-celda { animation: jfade .6s ease both; }
+.js-rv .faq-lista.rv-on > li:nth-child(1),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(1) { animation-delay: .04s; }
+.js-rv .faq-lista.rv-on > li:nth-child(2),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(2) { animation-delay: .1s; }
+.js-rv .faq-lista.rv-on > li:nth-child(3),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(3) { animation-delay: .16s; }
+.js-rv .faq-lista.rv-on > li:nth-child(4),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(4) { animation-delay: .22s; }
+.js-rv .faq-lista.rv-on > li:nth-child(5),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(5) { animation-delay: .28s; }
+.js-rv .faq-lista.rv-on > li:nth-child(6),
+.js-rv .mosaico.rv-on > .mos-celda:nth-child(6) { animation-delay: .34s; }
+.js-rv .faq-lista.rv-on > li:nth-child(n + 7) { animation-delay: .4s; }
+
+
 .wrap { max-width: 1240px; margin: 0 auto; padding-inline: clamp(20px, 4vw, 32px); }
 .eyebrow {
   font: 500 10px/1 "Montserrat", Helvetica, sans-serif;

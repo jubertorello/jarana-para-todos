@@ -319,6 +319,16 @@ a:hover { color: var(--yellow); }
   margin: 0 0 4px; font-size: clamp(19px, 2vw, 24px); font-weight: 700;
   letter-spacing: -.02em;
 }
+/* Las dos caras del carnet, una junto a otra. Son muestra, no enlaces. */
+.ficha-fotos {
+  width: 100%; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 4px 0 6px;
+}
+.ficha-fotos img {
+  width: 100%; height: auto; display: block;
+  border-radius: 2px; box-shadow: 0 0 0 1px var(--line);
+}
+
 .ficha p { margin: 0; font-size: 14px; line-height: 1.75; color: rgba(244,243,240,.66); }
 .ficha-extra { color: rgba(244,243,240,.44) !important; font-size: 13px !important; }
 .btn-ficha {
@@ -345,6 +355,7 @@ a:hover { color: var(--yellow); }
   .ven-texto { font-size: 14.5px; line-height: 1.7; }
   .mosaico { grid-auto-rows: 118px; }
   .ficha { padding: 24px 20px; }
+  .ficha-fotos { gap: 8px; }
 }
 
 /* ---------- 01 comunidad ---------- */

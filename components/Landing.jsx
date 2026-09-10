@@ -377,6 +377,13 @@ export default function Landing({ posts = [] }) {
           <div className="ven-fichas">
             <article className="ficha">
               <h3>{t.carnetTitulo}</h3>
+              {/* Anverso y dorso, solo como muestra: no son pinchables */}
+              <div className="ficha-fotos">
+                {MERCH_MEDIA.carnet.map((f) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={cldThumb(f)} alt="" key={f} loading="lazy" />
+                ))}
+              </div>
               <p>{t.carnetTexto}</p>
               <p className="ficha-extra">{t.carnetExtra}</p>
               <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">

@@ -81,6 +81,10 @@ a:hover { color: var(--yellow); }
 .js-rv .faq-lista.rv-on > li:nth-child(n + 7) { animation-delay: .4s; }
 
 
+/* La pagina nunca debe poder desplazarse a lo ancho. clip, no hidden: hidden
+   convertiria el documento en contenedor de scroll y romperia el sticky. */
+html, body { overflow-x: clip; }
+
 .wrap { max-width: 1240px; margin: 0 auto; padding-inline: clamp(20px, 4vw, 32px); }
 .eyebrow {
   font: 500 10px/1 "Montserrat", Helvetica, sans-serif;
@@ -637,7 +641,13 @@ a:hover { color: var(--yellow); }
 }
 
 /* ---------- 05 cierre ---------- */
-.cierre { border-top: 1px solid var(--line); }
+.cierre {
+  border-top: 1px solid var(--line);
+  /* El resplandor de la frase se sale por los lados a proposito. Se recorta
+     aqui para que no genere scroll horizontal; como la seccion va a sangre,
+     el corte cae fuera de pantalla y no se nota. */
+  overflow-x: clip;
+}
 .cierre-in {
   max-width: 1240px; margin: 0 auto;
   padding: clamp(76px, 10vw, 120px) clamp(20px, 4vw, 32px) clamp(84px, 11vw, 132px);

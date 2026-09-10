@@ -331,7 +331,7 @@ export default function Landing({ posts = [] }) {
 
           <div className="mosaico">
             {MOSAICO.map((m, i) => (
-              <figure className="mos-celda" key={i} data-alto={m.alto || undefined} data-pendiente={!m.id}>
+              <figure className="mos-celda" key={i} style={{ gridArea: m.hueco }} data-pendiente={!m.id}>
                 {m.id ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={cldThumb(m.id)} alt="" loading="lazy" />
@@ -400,13 +400,10 @@ export default function Landing({ posts = [] }) {
             </article>
           </div>
         </div>
-      </section>
 
-
-      <section id="merch" className="merch">
-        <div className="merch-in">
+        <div className="ven-in ven-merch">
           <div className="merch-head">
-            <span className="eyebrow">04 &mdash; {t.merchLabel}</span>
+            <h3 className="ven-sub">{t.merchLabel}</h3>
             <h2 className="titular">{t.merchTitle}</h2>
             <p className="merch-note">{t.merchNote}</p>
           </div>
@@ -467,6 +464,8 @@ export default function Landing({ posts = [] }) {
           </div>
         </div>
       </section>
+
+
 
       <footer>
         <div className="foot-grid">

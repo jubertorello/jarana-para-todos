@@ -60,6 +60,51 @@ const IconoWhatsApp = () => (
   </svg>
 );
 
+/**
+ * Carrusel con avance automatico, solo cuando la fila no cabe entera (es
+ * decir, en movil). Se detiene en cuanto el usuario toca o pasa el raton,
+ * y respeta prefers-reduced-motion.
+ */
+function useCarruselAuto() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timer = null;
+    let parado = false;
+
+    const cabeEntera = () => el.scrollWidth <= el.clientWidth + 4;
+    const avanzar = () => {
+      if (parado || cabeEntera()) return;
+      const paso = el.firstElementChild ? el.firstElementChild.offsetWidth + 12 : 260;
+      const fin = el.scrollWidth - el.clientWidth - 4;
+      el.scrollTo({ left: el.scrollLeft >= fin ? 0 : el.scrollLeft + paso, behavior: "smooth" });
+    };
+
+    const parar = () => {
+      parado = true;
+      clearTimeout(reanudar.t);
+      reanudar.t = setTimeout(() => { parado = false; }, 6000);
+    };
+    const reanudar = { t: null };
+
+    timer = setInterval(avanzar, 3800);
+    el.addEventListener("pointerdown", parar);
+    el.addEventListener("mouseenter", parar);
+    el.addEventListener("touchstart", parar, { passive: true });
+    return () => {
+      clearInterval(timer);
+      clearTimeout(reanudar.t);
+      el.removeEventListener("pointerdown", parar);
+      el.removeEventListener("mouseenter", parar);
+      el.removeEventListener("touchstart", parar);
+    };
+  }, []);
+  return ref;
+}
+
 function useAutoplay() {
   const ref = useRef(null);
   useEffect(() => {
@@ -121,7 +166,7 @@ function useAutoplay() {
 export default function Landing({ posts = [] }) {
   const [lang, setLang] = useState("es");
   const [scrolled, setScrolled] = useState(false);
-  const [galeria, setGaleria] = useState(null); // { k, t, fotos, i }
+  const merchRef = useCarruselAuto();
   const heroRef = useAutoplay();
   const reelRef = useAutoplay();
 
@@ -142,21 +187,6 @@ export default function Landing({ posts = [] }) {
   }, []);
 
 
-  useEffect(() => {
-    if (!galeria) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") setGaleria(null);
-      if (e.key === "ArrowRight") setGaleria((g) => g && { ...g, i: (g.i + 1) % g.fotos.length });
-      if (e.key === "ArrowLeft") setGaleria((g) => g && { ...g, i: (g.i - 1 + g.fotos.length) % g.fotos.length });
-    };
-    window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [galeria]);
 
   const t = COPY[lang];
 
@@ -407,23 +437,16 @@ export default function Landing({ posts = [] }) {
             <h2 className="titular">{t.merchTitle}</h2>
             <p className="merch-note">{t.merchNote}</p>
           </div>
-          <div className="merch-grid">
+          <div className="merch-carrusel" ref={merchRef}>
             {t.merch.map((m) => {
               const fotos = MERCH_MEDIA[m.k] || [];
               const hay = fotos.length > 0;
-              const Marco = hay ? "button" : "div";
               const apilada = MERCH_APILADAS.includes(m.k);
-              // El pie de cromos sale del propio numero de fotos, para que no
-              // pueda quedar desfasado si se anaden o quitan piezas.
+              // El pie de cromos sale del propio numero de fotos, para que
+              // no pueda quedar desfasado si se anaden o quitan piezas.
               const meta = m.meta || (hay ? `${fotos.length} ${t.merchChars}` : null);
               return (
-                <Marco
-                  className="merch-card"
-                  key={m.k}
-                  type={hay ? "button" : undefined}
-                  onClick={hay ? () => setGaleria({ k: m.k, t: m.t, fotos, i: 0 }) : undefined}
-                  aria-label={hay ? `${m.t}: ver ${fotos.length} fotos` : undefined}
-                >
+                <article className="merch-card" key={m.k}>
                   <div className="merch-shot" data-pendiente={!hay} data-apilada={apilada || undefined}>
                     {hay ? (
                       apilada ? (
@@ -444,21 +467,13 @@ export default function Landing({ posts = [] }) {
                   </div>
                   <div className="merch-txt">
                     <div className="merch-h">
-                      <h3>{m.t}</h3>
+                      <h4>{m.t}</h4>
                       <i aria-hidden="true" />
                     </div>
                     <p>{m.d}</p>
-                    <div className="merch-pie">
-                      {meta ? <span className="merch-meta">{meta}</span> : <span />}
-                      {hay ? (
-                        <span className="merch-ver">
-                          {t.merchSee}
-                          <i aria-hidden="true">&#8594;</i>
-                        </span>
-                      ) : null}
-                    </div>
+                    {meta ? <span className="merch-meta">{meta}</span> : null}
                   </div>
-                </Marco>
+                </article>
               );
             })}
           </div>
@@ -514,31 +529,6 @@ export default function Landing({ posts = [] }) {
         <b>{t.wa}</b>
       </a>
 
-      {galeria ? (
-        <div className="visor" role="dialog" aria-modal="true" aria-label={galeria.t} onClick={() => setGaleria(null)}>
-          <button className="visor-x" type="button" aria-label="Cerrar" onClick={() => setGaleria(null)}>&times;</button>
-          <div className="visor-in" onClick={(e) => e.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={cldFull(galeria.fotos[galeria.i])} alt={`${galeria.t} ${galeria.i + 1}`} />
-            {galeria.fotos.length > 1 ? (
-              <>
-                <button
-                  className="visor-nav prev" type="button" aria-label="Anterior"
-                  onClick={() => setGaleria((g) => ({ ...g, i: (g.i - 1 + g.fotos.length) % g.fotos.length }))}
-                >&#8249;</button>
-                <button
-                  className="visor-nav next" type="button" aria-label="Siguiente"
-                  onClick={() => setGaleria((g) => ({ ...g, i: (g.i + 1) % g.fotos.length }))}
-                >&#8250;</button>
-              </>
-            ) : null}
-          </div>
-          <div className="visor-pie">
-            <span>{galeria.t}</span>
-            <span>{galeria.i + 1} / {galeria.fotos.length}</span>
-          </div>
-        </div>
-      ) : null}
     </>
   );
 }

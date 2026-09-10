@@ -489,15 +489,18 @@ a:hover { color: var(--yellow); }
 .merch-head h2 { margin: 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.1; }
 .merch-note { margin: 0; font-size: 13px; color: rgba(244,243,240,.45); }
 
-.merch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 1px; }
+/* Tres piezas. En pantallas anchas caben las tres; por debajo de 1000px
+   la fila se convierte en carrusel deslizable, con avance automatico que
+   se detiene en cuanto el usuario interviene. */
+.merch-carrusel {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding: 1px;
+}
 .merch-card {
   background: var(--ink); box-shadow: 0 0 0 1px var(--line);
   display: flex; flex-direction: column;
   border: 0; margin: 0; padding: 0; font: inherit; color: inherit;
   text-align: left; width: 100%; appearance: none;
 }
-button.merch-card { cursor: pointer; }
-button.merch-card:focus-visible { outline: 2px solid var(--yellow); outline-offset: -2px; }
 
 /* La pieza se ve entera: nada de recortes. El hueco es 4:5 y la foto se
    centra dentro, con banda oscura si su proporcion no coincide. */
@@ -510,7 +513,7 @@ button.merch-card:focus-visible { outline: 2px solid var(--yellow); outline-offs
   object-fit: contain; display: block;
   transition: transform .5s cubic-bezier(.2,.8,.2,1);
 }
-button.merch-card:hover .merch-shot img { transform: scale(1.03); }
+.merch-card:hover .merch-shot img { transform: scale(1.03); }
 
 /* Portada apilada: dos horizontales una sobre otra componen un vertical.
    Se reparte la altura en dos filas iguales para que ninguna se corte,
@@ -541,7 +544,7 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
   padding: 22px 20px 24px; border-top: 1px solid var(--line);
 }
 .merch-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.merch-h h3 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+.merch-h h4 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
 .merch-h i {
   width: 6px; height: 6px; border-radius: 50%; background: var(--green);
   flex: none; opacity: .85;
@@ -550,90 +553,32 @@ button.merch-card:hover .merch-shot img { transform: scale(1.03); }
   margin: 0; font-size: 13px; line-height: 1.7; color: rgba(244,243,240,.55);
   text-wrap: pretty;
 }
-.merch-pie {
-  margin-top: 4px; display: flex; align-items: baseline;
-  justify-content: space-between; gap: 8px 14px; flex-wrap: wrap;
-}
 .merch-meta {
   font: 500 9px/1.4 "Montserrat", Helvetica, sans-serif;
   letter-spacing: .2em; text-transform: uppercase; color: rgba(244,243,240,.3);
 }
 /* Llamada a la accion explicita: el numero suelto no decia que fuese
    pinchable. Va dentro del boton, no es un enlace aparte. */
-.merch-ver {
-  display: inline-flex; align-items: center; gap: 7px; flex: none;
-  font: 700 9px/1.4 "Montserrat", Helvetica, sans-serif;
-  letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
-  color: rgba(244,243,240,.62); transition: color .25s;
-}
-.merch-ver i {
-  font-style: normal; font-size: 12px; line-height: 1;
-  transition: transform .25s cubic-bezier(.2,.8,.2,1);
-}
-button.merch-card:hover .merch-ver { color: var(--yellow); }
-button.merch-card:hover .merch-ver i { transform: translateX(3px); }
 
 @media (max-width: 1000px) {
-  .merch-grid { grid-template-columns: repeat(2, 1fr); }
+  .merch-carrusel {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    gap: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    margin-inline: calc(clamp(20px, 4vw, 32px) * -1);
+    padding-inline: clamp(20px, 4vw, 32px);
+  }
+  .merch-carrusel::-webkit-scrollbar { display: none; }
+  .merch-card { flex: 0 0 auto; width: min(70vw, 340px); scroll-snap-align: start; }
 }
 @media (max-width: 620px) {
 
   .merch-head h2 { font-size: clamp(23px, 6.6vw, 30px); }
-  .merch-grid { grid-template-columns: 1fr; }
+  .merch-card { width: 76vw; }
   /* Vertical, como en escritorio: en apaisado la pieza se veia diminuta
      dentro de una franja ancha. */
   .merch-shot { aspect-ratio: 4 / 5; }
   .merch-txt { padding: 18px 16px 20px; }
   .merch-txt p { font-size: 12.5px; }
-}
-
-/* ---------- visor de fotos ---------- */
-.visor {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(6,7,8,.94); backdrop-filter: blur(10px);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: clamp(46px, 7vw, 70px) clamp(14px, 4vw, 40px) clamp(56px, 7vw, 70px);
-  animation: jfade .25s ease both;
-}
-.visor-in { position: relative; max-width: 1100px; width: 100%; display: flex; justify-content: center; }
-.visor-in img {
-  max-width: 100%; max-height: calc(100dvh - 190px);
-  width: auto; height: auto; object-fit: contain; display: block;
-}
-.visor-x {
-  position: absolute; top: clamp(12px, 2.5vw, 22px); right: clamp(12px, 2.5vw, 22px);
-  width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
-  background: rgba(244,243,240,.1); border: 1px solid rgba(244,243,240,.2);
-  color: var(--paper); font-size: 22px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .25s;
-}
-.visor-x:hover { background: rgba(244,243,240,.2); }
-.visor-nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
-  background: rgba(8,9,10,.6); border: 1px solid rgba(244,243,240,.22);
-  color: var(--paper); font-size: 26px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .25s;
-}
-.visor-nav:hover { background: rgba(244,243,240,.18); }
-.visor-nav.prev { left: clamp(-6px, -1vw, 10px); }
-.visor-nav.next { right: clamp(-6px, -1vw, 10px); }
-.visor-pie {
-  position: absolute; left: 0; right: 0; bottom: clamp(18px, 3vw, 26px);
-  display: flex; gap: 16px; align-items: center; justify-content: center;
-  font: 500 10px/1 "Montserrat", Helvetica, sans-serif;
-  letter-spacing: .2em; text-transform: uppercase; color: rgba(244,243,240,.5);
-}
-.visor-pie span + span { color: rgba(244,243,240,.32); }
-
-@media (max-width: 620px) {
-  .visor { padding: 60px 12px 64px; }
-  .visor-in img { max-height: calc(100dvh - 170px); }
-  .visor-nav { width: 40px; height: 40px; }
-  .visor-nav.prev { left: -2px; }
-  .visor-nav.next { right: -2px; }
 }
 
 /* ---------- footer ---------- */

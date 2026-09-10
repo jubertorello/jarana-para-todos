@@ -295,7 +295,14 @@ a:hover { color: var(--yellow); }
   margin: 0; max-width: 46ch; font-size: 15px; line-height: 1.75;
   color: rgba(244,243,240,.62);
 }
-.merch-head { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+/* En escritorio el boton va al costado derecho, no ocupando una linea
+   entera debajo. En movil vuelve a apilarse. */
+.merch-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 28px; flex-wrap: wrap;
+}
+.merch-head-txt { flex: 1 1 auto; min-width: 0;
+  display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
 
 /* Las tres piezas como etiquetas junto al texto. Camisetas todavia no
    tiene fotos, asi que sin esto no aparecia en ningun sitio del bloque. */
@@ -351,15 +358,20 @@ a:hover { color: var(--yellow); }
 
 
 /* Las dos fichas: carnet y grupos */
+/* Una ficha por fila. En dos columnas cada tarjeta medía 587px y el boton
+   no cabia al lado del texto: se caia a una linea propia debajo. */
 .ven-fichas {
   margin-top: clamp(40px, 5vw, 60px);
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px; padding: 1px;
+  display: grid; grid-template-columns: 1fr; gap: 1px; padding: 1px;
 }
 .ficha {
   background: var(--ink); box-shadow: 0 0 0 1px var(--line);
   padding: clamp(28px, 3vw, 38px);
-  display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
 }
+.ficha-txt { flex: 1 1 auto; min-width: 0; max-width: 62ch;
+  display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
 .ficha h3 {
   margin: 0 0 4px; font-size: clamp(19px, 2vw, 24px); font-weight: 700;
   letter-spacing: -.02em;
@@ -377,7 +389,7 @@ a:hover { color: var(--yellow); }
 .ficha p { margin: 0; font-size: 14px; line-height: 1.75; color: rgba(244,243,240,.66); }
 .ficha-extra { color: rgba(244,243,240,.44) !important; font-size: 13px !important; }
 .btn-ficha {
-  margin-top: 10px;
+  flex: none;
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--paper); color: var(--ink);
   border-radius: 999px; padding: 14px 22px;
@@ -392,7 +404,7 @@ a:hover { color: var(--yellow); }
   /* A cuatro columnas las celdas quedaban en franjas de 90px de alto.
      Se mantiene la composicion de seis, que a este ancho sigue leyendose. */
   .mosaico { grid-template-rows: repeat(5, clamp(70px, 9vw, 96px)); }
-  .ven-fichas { grid-template-columns: 1fr; }
+
 }
 @media (max-width: 620px) {
   .ven-in:first-child { padding-top: 56px; }
@@ -411,8 +423,9 @@ a:hover { color: var(--yellow); }
       "d d"
       "e f";
   }
-  .ficha { padding: 24px 20px; }
+  .ficha { padding: 24px 20px; gap: 18px; }
   .ficha-fotos { gap: 8px; }
+  .merch-head { gap: 20px; }
 }
 
 /* ---------- 01 comunidad ---------- */
@@ -516,8 +529,6 @@ a:hover { color: var(--yellow); }
 
 /* ---------- merchandising ---------- */
 .merch-in { display: contents; }
-.merch-head { display: flex; flex-direction: column; gap: 18px; }
-.merch-head h2 { margin: 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.1; }
 .merch-note { margin: 0; font-size: 13px; color: rgba(244,243,240,.45); }
 
 /* Tira de fotos del merchandising. Altura fija y ancho libre: cada foto
@@ -533,35 +544,54 @@ a:hover { color: var(--yellow); }
 }
 .merch-tira::-webkit-scrollbar { display: none; }
 .merch-foto {
-  margin: 0; flex: 0 0 auto; scroll-snap-align: start;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.merch-foto img {
+  flex: 0 0 auto; scroll-snap-align: start;
   height: clamp(230px, 25vw, 330px); width: auto; display: block;
   object-fit: cover; background: #0c0d10;
   box-shadow: 0 0 0 1px var(--line);
   transition: transform .7s cubic-bezier(.2,.8,.2,1);
 }
-.merch-foto:hover img { transform: scale(1.02); }
+.merch-foto:hover { transform: scale(1.02); }
 
-/* La etiqueta va justo encima de la foto, fuera de ella. Superpuesta
-   chocaba siempre con el diseño del cromo, que ya lleva su nombre arriba
-   y su descripcion abajo. */
-.merch-foto figcaption {
-  order: -1; display: flex; flex-direction: column; gap: 3px;
-}
-.merch-foto figcaption b {
-  font: 700 9.5px/1.2 "Montserrat", Helvetica, sans-serif;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--paper);
-}
-.merch-foto figcaption em {
-  font: 500 8px/1.3 "Montserrat", Helvetica, sans-serif;
-  font-style: normal; letter-spacing: .16em; text-transform: uppercase;
-  color: rgba(244,243,240,.38);
-}
 
 @media (max-width: 620px) {
   .merch-foto { height: 250px; }
+}
+
+/* ---------- 04 preguntas frecuentes ---------- */
+.faq { border-top: 1px solid var(--line); }
+.faq-in {
+  max-width: 1240px; margin: 0 auto;
+  padding: clamp(64px, 8vw, 96px) clamp(20px, 4vw, 32px) clamp(72px, 9vw, 104px);
+  display: flex; flex-direction: column; gap: clamp(32px, 4vw, 44px);
+}
+/* Dos columnas: ocho preguntas en una sola columna obligaban a un scroll
+   muy largo en escritorio. */
+.faq-lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(40px, 5vw, 72px);
+}
+.faq-lista li {
+  padding: 24px 0; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 9px;
+}
+.faq-lista h3 {
+  margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em;
+  line-height: 1.4; text-wrap: balance;
+}
+.faq-lista p {
+  margin: 0; font-size: 14px; line-height: 1.75;
+  color: rgba(244,243,240,.6); text-wrap: pretty;
+}
+
+@media (max-width: 820px) {
+  .faq-lista { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .faq-in { padding: 56px 20px 64px; gap: 26px; }
+  .faq-lista li { padding: 20px 0; }
+  .faq-lista h3 { font-size: 14.5px; }
+  .faq-lista p { font-size: 13.5px; }
 }
 
 /* ---------- footer ---------- */

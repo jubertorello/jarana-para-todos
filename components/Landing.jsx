@@ -407,24 +407,28 @@ export default function Landing({ posts = [] }) {
         <div className="ven-in">
           <div className="ven-fichas">
             <article className="ficha">
-              <h3>{t.carnetTitulo}</h3>
-              {/* Anverso y dorso, solo como muestra: no son pinchables */}
-              <div className="ficha-fotos">
+              <div className="ficha-txt">
+                <h3>{t.carnetTitulo}</h3>
+                  {/* Anverso y dorso, solo como muestra: no son pinchables */}
+                  <div className="ficha-fotos">
                 {MERCH_MEDIA.carnet.map((f) => (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={cldThumb(f)} alt="" key={f} loading="lazy" />
                 ))}
               </div>
-              <p>{t.carnetTexto}</p>
-              <p className="ficha-extra">{t.carnetExtra}</p>
+                <p>{t.carnetTexto}</p>
+                <p className="ficha-extra">{t.carnetExtra}</p>
+              </div>
               <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
                 {t.carnetCta}<i aria-hidden="true">&#8599;</i>
               </a>
             </article>
             <article className="ficha">
-              <h3>{t.grupoTitulo}</h3>
-              <p>{t.grupoTexto}</p>
-              <p className="ficha-extra">{t.grupoExtra}</p>
+              <div className="ficha-txt">
+                <h3>{t.grupoTitulo}</h3>
+                <p>{t.grupoTexto}</p>
+                <p className="ficha-extra">{t.grupoExtra}</p>
+              </div>
               <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
                 {t.grupoCta}<i aria-hidden="true">&#8599;</i>
               </a>
@@ -434,15 +438,16 @@ export default function Landing({ posts = [] }) {
 
         <div className="ven-in ven-merch">
           <div className="merch-head">
-            <h3 className="ven-sub">{t.merchLabel}</h3>
-            <p className="merch-desc">{t.merchDesc}</p>
+            <div className="merch-head-txt">
+              <h3 className="ven-sub">{t.merchLabel}</h3>
+              <p className="merch-desc">{t.merchDesc}</p>
 
             {/* Las tres piezas, como etiquetas. Camisetas no tiene fotos y
                 sin esto no aparecia en ninguna parte del bloque. */}
-            <ul className="merch-tags">
+              <ul className="merch-tags">
               {t.merch.map((m) => {
                 const fotos = MERCH_MEDIA[m.k] || [];
-                const estado = m.meta || (fotos.length ? `${fotos.length} ${t.merchChars}` : null);
+                const estado = m.meta || (fotos.length && m.unidad ? `${fotos.length} ${m.unidad}` : null);
                 return (
                   <li key={m.k}>
                     <b>{m.t}</b>
@@ -450,7 +455,8 @@ export default function Landing({ posts = [] }) {
                   </li>
                 );
               })}
-            </ul>
+              </ul>
+            </div>
             <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
               {t.merchCta}<i aria-hidden="true">&#8599;</i>
             </a>
@@ -462,17 +468,15 @@ export default function Landing({ posts = [] }) {
           <div className="merch-tira" ref={merchRef}>
             {MERCH_TIRA.map((f) => {
               const pieza = t.merch.find((m) => m.k === f.k);
-              const fotos = MERCH_MEDIA[f.k] || [];
-              const estado = pieza?.meta || (fotos.length ? `${fotos.length} ${t.merchChars}` : null);
               return (
-                <figure className="merch-foto" key={f.id}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={cldThumb(f.id)} alt={pieza?.t || ""} loading="lazy" />
-                  <figcaption>
-                    <b>{pieza?.t}</b>
-                    {estado ? <em>{estado}</em> : null}
-                  </figcaption>
-                </figure>
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="merch-foto"
+                  src={cldThumb(f.id)}
+                  alt={pieza?.t || ""}
+                  key={f.id}
+                  loading="lazy"
+                />
               );
             })}
           </div>
@@ -480,6 +484,20 @@ export default function Landing({ posts = [] }) {
       </section>
 
 
+
+      <section id="faq" className="faq">
+        <div className="faq-in">
+          <span className="eyebrow">04 &mdash; {t.faqLabel}</span>
+          <ul className="faq-lista">
+            {t.faq.map((f) => (
+              <li key={f.p}>
+                <h3>{f.p}</h3>
+                <p>{f.r}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <footer>
         <div className="foot-grid">

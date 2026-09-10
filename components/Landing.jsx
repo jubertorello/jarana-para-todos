@@ -434,7 +434,10 @@ export default function Landing({ posts = [] }) {
         <div className="ven-in ven-merch">
           <div className="merch-head">
             <h3 className="ven-sub">{t.merchLabel}</h3>
-            <h2 className="titular">{t.merchTitle}</h2>
+            <p className="merch-desc">{t.merchDesc}</p>
+            <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
+              {t.merchCta}<i aria-hidden="true">&#8599;</i>
+            </a>
           </div>
 
           {/* Tira con todas las fotos, pasando sola. Cada una conserva su

@@ -367,7 +367,8 @@ a:hover { color: var(--yellow); }
 .ficha {
   background: var(--ink); box-shadow: 0 0 0 1px var(--line);
   padding: clamp(28px, 3vw, 38px);
-  display: flex; align-items: flex-end; justify-content: space-between;
+  /* El boton arranca a la altura del titulo, no al pie de la tarjeta */
+  display: flex; align-items: flex-start; justify-content: space-between;
   gap: 24px; flex-wrap: wrap;
 }
 .ficha-txt { flex: 1 1 auto; min-width: 0; max-width: 62ch;

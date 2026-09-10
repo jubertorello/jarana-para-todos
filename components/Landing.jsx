@@ -48,6 +48,12 @@ const REEL_ID =
 const VIDEO = (id, t) => CLD_VIDEO + (t || "q_auto,f_auto:video") + "/" + id + ".mp4";
 const POSTER = (id) => CLD_VIDEO + "so_3,w_900,f_jpg,q_auto/" + id + ".jpg";
 
+/* La frase de marca rotulada en Arsenica. El PNG viene en negro sobre blanco
+   opaco, asi que e_trim le quita el margen y en CSS se invierte y se funde
+   con el fondo (invert + screen), que deja el blanco limpio y sin halo. */
+const FRASE_CIERRE =
+  "https://res.cloudinary.com/scihumn2/image/upload/e_trim/w_900,f_auto,q_auto/v1789066965/Frase_-_Calienta.png";
+
 /**
  * Reproduce el video en bucle y sin sonido, insistiendo si el navegador lo
  * frena. Solo actua cuando el video esta a la vista: el de "La marca" esta
@@ -529,10 +535,10 @@ export default function Landing({ posts = [] }) {
           <span className="eyebrow"><b className="eyebrow-num">05</b> &mdash; {t.cierreLabel}</span>
           <h2>{t.cierreTitulo}</h2>
           <p>{t.cierreTexto}</p>
-          {/* La frase de marca cierra el circulo con el hero */}
+          {/* La frase de marca cierra el circulo con el hero, rotulada */}
           <p className="cierre-frase">
-            <b>{t.heroA}</b>
-            <span>{t.heroB}</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={FRASE_CIERRE} alt={t.heroA + " " + t.heroB} width="900" height="567" />
           </p>
         </div>
       </section>

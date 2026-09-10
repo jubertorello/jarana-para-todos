@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS, MOSAICO,
+  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS, MERCH_TIRA, MOSAICO,
   cldThumb, cldFull, cldLogo
 } from "@/lib/copy";
 
@@ -435,45 +435,25 @@ export default function Landing({ posts = [] }) {
           <div className="merch-head">
             <h3 className="ven-sub">{t.merchLabel}</h3>
             <h2 className="titular">{t.merchTitle}</h2>
-            <p className="merch-note">{t.merchNote}</p>
           </div>
-          <div className="merch-carrusel" ref={merchRef}>
-            {t.merch.map((m) => {
-              const fotos = MERCH_MEDIA[m.k] || [];
-              const hay = fotos.length > 0;
-              const apilada = MERCH_APILADAS.includes(m.k);
-              // El pie de cromos sale del propio numero de fotos, para que
-              // no pueda quedar desfasado si se anaden o quitan piezas.
-              const meta = m.meta || (hay ? `${fotos.length} ${t.merchChars}` : null);
+
+          {/* Tira con todas las fotos, pasando sola. Cada una conserva su
+              formato (los cascos apaisados, los cromos verticales) y lleva
+              la etiqueta de la pieza encima. No son pinchables. */}
+          <div className="merch-tira" ref={merchRef}>
+            {MERCH_TIRA.map((f) => {
+              const pieza = t.merch.find((m) => m.k === f.k);
+              const fotos = MERCH_MEDIA[f.k] || [];
+              const estado = pieza?.meta || (fotos.length ? `${fotos.length} ${t.merchChars}` : null);
               return (
-                <article className="merch-card" key={m.k}>
-                  <div className="merch-shot" data-pendiente={!hay} data-apilada={apilada || undefined}>
-                    {hay ? (
-                      apilada ? (
-                        fotos.map((f, n) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={f} src={cldThumb(f)} alt={`${m.t} ${n + 1}`} loading="lazy" />
-                        ))
-                      ) : (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={cldThumb(fotos[0])} alt={m.t} loading="lazy" />
-                      )
-                    ) : (
-                      <span>
-                        {t.merchSoon}
-                        <i>900&times;1125</i>
-                      </span>
-                    )}
-                  </div>
-                  <div className="merch-txt">
-                    <div className="merch-h">
-                      <h4>{m.t}</h4>
-                      <i aria-hidden="true" />
-                    </div>
-                    <p>{m.d}</p>
-                    {meta ? <span className="merch-meta">{meta}</span> : null}
-                  </div>
-                </article>
+                <figure className="merch-foto" key={f.id}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={cldThumb(f.id)} alt={pieza?.t || ""} loading="lazy" />
+                  <figcaption>
+                    <b>{pieza?.t}</b>
+                    {estado ? <em>{estado}</em> : null}
+                  </figcaption>
+                </figure>
               );
             })}
           </div>

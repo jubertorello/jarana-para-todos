@@ -297,6 +297,27 @@ a:hover { color: var(--yellow); }
 }
 .merch-head { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
 
+/* Las tres piezas como etiquetas junto al texto. Camisetas todavia no
+   tiene fotos, asi que sin esto no aparecia en ningun sitio del bloque. */
+.merch-tags {
+  list-style: none; margin: 2px 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.merch-tags li {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  padding: 8px 13px; border-radius: 999px;
+  border: 1px solid rgba(244,243,240,.2);
+}
+.merch-tags b {
+  font: 700 9.5px/1 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--paper);
+}
+.merch-tags em {
+  font: 500 8.5px/1 "Montserrat", Helvetica, sans-serif;
+  font-style: normal; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(244,243,240,.42);
+}
+
 .ven-sub {
   margin: 0; font-size: clamp(19px, 2vw, 24px); font-weight: 700;
   letter-spacing: -.02em;
@@ -432,7 +453,14 @@ a:hover { color: var(--yellow); }
 }
 
 /* Los dos accesos: el icono manda, el texto acompana */
-.com-accesos { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; padding: 1px; }
+/* El acceso a Instagram y el carrete forman una unidad: comparten caja y
+   se pegan, para que se lea que las fotos vienen de esa cuenta. */
+.com-ig {
+  box-shadow: 0 0 0 1px rgba(244,243,240,.18);
+  display: flex; flex-direction: column;
+}
+.com-acceso-ig { box-shadow: none !important; border-bottom: 1px solid var(--line); }
+.com-ig .ig-carrete { margin: 0; padding: 14px; }
 .com-acceso {
   display: flex; align-items: center; gap: 18px;
   padding: 26px 24px; background: var(--ink);
@@ -475,9 +503,6 @@ a:hover { color: var(--yellow); }
   color: rgba(244,243,240,.55);
 }
 
-@media (max-width: 760px) {
-  .com-accesos { grid-template-columns: 1fr; }
-}
 @media (max-width: 620px) {
   .com-in { padding: 56px 20px 64px; gap: 28px; }
   .com-head h2 { font-size: clamp(23px, 6.6vw, 30px); }

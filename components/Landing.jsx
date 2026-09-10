@@ -259,29 +259,10 @@ export default function Landing({ posts = [] }) {
             <h2 className="titular">{t.comTitulo}</h2>
           </div>
 
-          {/* Carrete horizontal: el 98% de la audiencia entra por movil */}
-          <div className="ig-carrete" role="list">
-            {posts.map((po) => (
-              <a
-                className="ig-cromo"
-                href={po.url}
-                target="_blank"
-                rel="noopener"
-                key={po.id}
-                role="listitem"
-              >
-                {po.src ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={po.src} alt={po.alt} loading="lazy" />
-                ) : (
-                  <span>{po.label}</span>
-                )}
-              </a>
-            ))}
-          </div>
-
-          <div className="com-accesos">
-            <a className="com-acceso" href={IG_URL} target="_blank" rel="noopener">
+          {/* El acceso a Instagram encabeza el carrete, pegado a el, para que
+              se entienda de un vistazo que las fotos vienen de ahi. */}
+          <div className="com-ig">
+            <a className="com-acceso com-acceso-ig" href={IG_URL} target="_blank" rel="noopener">
               <i><IconoInstagram /></i>
               <span>
                 <b>{t.comIgTitulo}</b>
@@ -289,15 +270,35 @@ export default function Landing({ posts = [] }) {
               </span>
               <u>{t.comIgCta}<i aria-hidden="true">&#8599;</i></u>
             </a>
-            <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
-              <i><IconoWhatsApp /></i>
-              <span>
-                <b>{t.comWaTitulo}</b>
-                <em>{t.comWaPie}</em>
-              </span>
-              <u>{t.comWaCta}<i aria-hidden="true">&#8599;</i></u>
-            </a>
+            <div className="ig-carrete" role="list">
+              {posts.map((po) => (
+                <a
+                  className="ig-cromo"
+                  href={po.url}
+                  target="_blank"
+                  rel="noopener"
+                  key={po.id}
+                  role="listitem"
+                >
+                  {po.src ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={po.src} alt={po.alt} loading="lazy" />
+                  ) : (
+                    <span>{po.label}</span>
+                  )}
+                </a>
+              ))}
+            </div>
           </div>
+
+          <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
+            <i><IconoWhatsApp /></i>
+            <span>
+              <b>{t.comWaTitulo}</b>
+              <em>{t.comWaPie}</em>
+            </span>
+            <u>{t.comWaCta}<i aria-hidden="true">&#8599;</i></u>
+          </a>
         </div>
       </section>
 
@@ -435,6 +436,21 @@ export default function Landing({ posts = [] }) {
           <div className="merch-head">
             <h3 className="ven-sub">{t.merchLabel}</h3>
             <p className="merch-desc">{t.merchDesc}</p>
+
+            {/* Las tres piezas, como etiquetas. Camisetas no tiene fotos y
+                sin esto no aparecia en ninguna parte del bloque. */}
+            <ul className="merch-tags">
+              {t.merch.map((m) => {
+                const fotos = MERCH_MEDIA[m.k] || [];
+                const estado = m.meta || (fotos.length ? `${fotos.length} ${t.merchChars}` : null);
+                return (
+                  <li key={m.k}>
+                    <b>{m.t}</b>
+                    {estado ? <em>{estado}</em> : null}
+                  </li>
+                );
+              })}
+            </ul>
             <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
               {t.merchCta}<i aria-hidden="true">&#8599;</i>
             </a>

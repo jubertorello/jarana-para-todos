@@ -14,12 +14,21 @@ const WA_URL = "https://wa.me/" + WHATSAPP;
 // Grupo de WhatsApp. Mientras no exista el enlace del grupo, apunta al chat
 // directo para que el boton no quede muerto.
 const WA_GRUPO = process.env.NEXT_PUBLIC_WHATSAPP_GRUPO || WA_URL;
+// Mensaje directo de Instagram
+const IG_DM = "https://ig.me/m/" + HANDLE.replace("@", "");
+// TikTok: sin definir no se muestra el icono, para no enlazar a una cuenta
+// que no existe.
+const TIKTOK_URL = process.env.NEXT_PUBLIC_TIKTOK_URL || null;
 const SPOTIFY_URL =
   process.env.NEXT_PUBLIC_SPOTIFY_URL ||
   "https://open.spotify.com/user/31al7dfx35rglpgvuvb5qtgxif5q";
 const YOUTUBE_URL =
   process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://www.youtube.com/@JaranaParaTodos";
 const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
+// Newsletter: mientras no haya formulario, se resuelve por correo.
+const NEWSLETTER_URL =
+  process.env.NEXT_PUBLIC_NEWSLETTER_URL ||
+  "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Quiero suscribirme a la newsletter");
 const PLATFORM = "Fourvenues";
 const CLD_VIDEO = "https://res.cloudinary.com/rmrm61ee/video/upload/";
 // Sin tope de bitrate: br_900k dejaba el metraje de fiesta borroso. Y a
@@ -65,6 +74,24 @@ const IconoWhatsApp = () => (
  * decir, en movil). Se detiene en cuanto el usuario toca o pasa el raton,
  * y respeta prefers-reduced-motion.
  */
+const IconoTikTok = () => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+    <path d="M16.6 5.8a4.8 4.8 0 0 1-1.2-3.1h-3v12.4a2.6 2.6 0 1 1-1.9-2.5V9.5a5.6 5.6 0 1 0 4.9 5.6V9.1a7.8 7.8 0 0 0 4.5 1.4V7.5a4.8 4.8 0 0 1-3.3-1.7Z" />
+  </svg>
+);
+
+const IconoSpotify = () => (
+  <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.3 14.5a.8.8 0 0 1-1.1.3c-2.9-1.8-6.6-2.2-10-1.4a.8.8 0 1 1-.3-1.5c3.7-.9 7.8-.4 11.1 1.6.4.2.5.7.3 1Zm1.2-2.9a1 1 0 0 1-1.3.3c-3.3-2-8.3-2.6-12.2-1.4a1 1 0 0 1-.6-1.9c4.4-1.3 10-.7 13.8 1.6.5.3.6.9.3 1.4Zm.1-3a1.2 1.2 0 0 1-1.6.4C12.2 8.7 6.5 8.5 3 9.6a1.2 1.2 0 1 1-.7-2.3c4-1.2 10.3-1 14.4 1.4.6.4.8 1.1.4 1.7Z" />
+  </svg>
+);
+
+const IconoYouTube = () => (
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+    <path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z" />
+  </svg>
+);
+
 function useCarruselAuto() {
   const ref = useRef(null);
   useEffect(() => {
@@ -514,39 +541,46 @@ export default function Landing({ posts = [] }) {
 
       <footer>
         <div className="foot-grid">
-          <div className="col" style={{ gap: 26 }}>
-            <div className="medal">
-              <span className="halo" />
-              <span className="ring" />
-              <span className="sheen" />
-              <span className="core">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/globe-white.webp" alt="" />
-              </span>
+          <div className="foot-marca">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/logo-white.webp" alt="Jarana Para Todos" />
+            <div className="foot-redes">
+              <a href={IG_URL} target="_blank" rel="noopener" aria-label="Instagram">
+                <IconoInstagram />
+              </a>
+              {TIKTOK_URL ? (
+                <a href={TIKTOK_URL} target="_blank" rel="noopener" aria-label="TikTok">
+                  <IconoTikTok />
+                </a>
+              ) : null}
+              <a href={SPOTIFY_URL} target="_blank" rel="noopener" aria-label="Spotify">
+                <IconoSpotify />
+              </a>
+              <a href={YOUTUBE_URL} target="_blank" rel="noopener" aria-label="YouTube">
+                <IconoYouTube />
+              </a>
             </div>
-            <p className="foot-note">{t.footNote}</p>
           </div>
+
           <div className="foot-col">
             <span>{t.footContact}</span>
-            <a href={"mailto:" + EMAIL}>{EMAIL}</a>
-            <a href={WA_URL} target="_blank" rel="noopener">WhatsApp</a>
+            <a href={"mailto:" + EMAIL}>{t.footMail}</a>
+            <a href={WA_URL} target="_blank" rel="noopener">{t.footWa}</a>
+            <a href={IG_DM} target="_blank" rel="noopener">{t.footDm}</a>
+            <a href={NEWSLETTER_URL}>{t.footNews}</a>
+            <a href={WA_GRUPO} target="_blank" rel="noopener">{t.footGrupo}</a>
           </div>
-          <div className="foot-col">
-            <span>{t.footSocial}</span>
-            <a href={IG_URL} target="_blank" rel="noopener">Instagram</a>
-            <a href={SPOTIFY_URL} target="_blank" rel="noopener">Spotify</a>
-            <a href={YOUTUBE_URL} target="_blank" rel="noopener">YouTube</a>
-          </div>
-          <div className="foot-col">
-            <span>{t.footLegal}</span>
+        </div>
+
+        <div className="foot-base">
+          <span>&copy; 2026 Jarana Para Todos. {t.footRights}</span>
+          {/* Los enlaces legales bajan al pie: el brief deja el footer en dos
+              columnas y estos tienen que seguir siendo accesibles. */}
+          <span className="foot-legal">
             <a href="/terminos">{t.legalTerms}</a>
             <a href="/aviso-legal">{t.legalNotice}</a>
             <a href="/privacidad">{t.legalPrivacy}</a>
-          </div>
-        </div>
-        <div className="foot-base">
-          <span>&copy; 2026 Jarana Para Todos</span>
-          <span>{t.footRights}</span>
+          </span>
         </div>
       </footer>
 

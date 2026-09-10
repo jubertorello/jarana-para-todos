@@ -257,6 +257,7 @@ export default function Landing({ posts = [] }) {
                 <b>{t.comIgTitulo}</b>
                 <em>{t.comIgPie}</em>
               </span>
+              <u>{t.comIgCta}<i aria-hidden="true">&#8599;</i></u>
             </a>
             <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
               <i><IconoWhatsApp /></i>
@@ -264,6 +265,7 @@ export default function Landing({ posts = [] }) {
                 <b>{t.comWaTitulo}</b>
                 <em>{t.comWaPie}</em>
               </span>
+              <u>{t.comWaCta}<i aria-hidden="true">&#8599;</i></u>
             </a>
           </div>
         </div>

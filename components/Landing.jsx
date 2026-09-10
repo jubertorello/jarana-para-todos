@@ -273,7 +273,7 @@ export default function Landing({ posts = [] }) {
               </span>
             </a>
             <a className="com-acceso" href={WA_GRUPO} target="_blank" rel="noopener">
-              <i data-wa="true"><IconoWhatsApp /></i>
+              <i><IconoWhatsApp /></i>
               <span>
                 <b>{t.comWaTitulo}</b>
                 <em>{t.comWaPie}</em>

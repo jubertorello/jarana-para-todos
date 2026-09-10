@@ -499,6 +499,19 @@ export default function Landing({ posts = [] }) {
         </div>
       </section>
 
+      <section id="cierre" className="cierre">
+        <div className="cierre-in">
+          <span className="eyebrow">05 &mdash; {t.cierreLabel}</span>
+          <h2>{t.cierreTitulo}</h2>
+          <p>{t.cierreTexto}</p>
+          {/* La frase de marca cierra el circulo con el hero */}
+          <p className="cierre-frase">
+            <b>{t.heroA}</b>
+            <span>{t.heroB}</span>
+          </p>
+        </div>
+      </section>
+
       <footer>
         <div className="foot-grid">
           <div className="col" style={{ gap: 26 }}>

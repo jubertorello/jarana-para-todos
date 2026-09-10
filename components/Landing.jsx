@@ -30,24 +30,23 @@ const NEWSLETTER_URL =
   process.env.NEXT_PUBLIC_NEWSLETTER_URL ||
   "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Quiero suscribirme a la newsletter");
 const PLATFORM = "Fourvenues";
-const CLD_VIDEO = "https://res.cloudinary.com/rmrm61ee/video/upload/";
-// Sin tope de bitrate: br_900k dejaba el metraje de fiesta borroso. Y a
-// 1920px Cloudinary no ahorra nada (11,99 frente a 11,98 MB), porque el
-// original ya viene bien codificado; el unico ahorro real es bajar ancho.
-// Por eso se sirven dos versiones y decide el navegador: en movil, donde
-// la pantalla es estrecha y los datos caros, una mas ligera; en pantallas
-// grandes una que no se vea estirada.
-// En movil el hero es vertical y el video se recorta por altura, asi que lo
-// que manda no es el ancho sino los pixeles verticales: a w_1100 solo hay
-// 618px de alto y habria que estirarlos hasta los 844 de la pantalla.
-// w_1400 deja 787, practicamente sin estirar, por 1,3 MB mas.
-const VIDEO_ANCHO = (id) => CLD_VIDEO + "w_1600,q_auto,f_auto:video/" + id + ".mp4";
-const VIDEO_MOVIL = (id) => CLD_VIDEO + "w_1400,q_auto,f_auto:video/" + id + ".mp4";
-// Fotograma fijo para que se vea algo desde el primer momento.
-const POSTER = (id) => CLD_VIDEO + "so_3,w_1280,f_jpg,q_auto/" + id + ".jpg";
+// Videos. Los tres viven en la cuenta secundaria de Cloudinary.
+const CLD_VIDEO = "https://res.cloudinary.com/scihumn2/video/upload/";
 
-const HERO_ID = "02_Jarana1";
-const REEL_ID = "04_Jarana2";
+// El hero tiene dos piezas distintas, no dos recortes de la misma: una
+// apaisada para pantallas anchas y otra vertical para movil. Con eso
+// desaparece el recorte que dejaba fuera el 73% del ancho en vertical.
+const HERO_ANCHO_ID = "IMG_1882";
+const HERO_MOVIL_ID =
+  "AQNhs3Hp9IS8KkTwTckEu478TM-fsDihSmwP3Z-ZWbJULgDm4hnW8kH9rrfMoFDWshWxKATyBn6A0dDyPo9SskTsJjqGnkYaW2lWGx4";
+const REEL_ID =
+  "AQPzcEhG4JnuP34bgP9FHiO6959jkrK4ITFoczi42BXBuz4pkBgC5fYpVsRtgdERD1smyaXV_gpW0oTVCL-3Oo23ZKx3_l-_EVTOrjY";
+
+// Los originales son de 720px de ancho, asi que pedirlos mas grandes solo
+// agranda el archivo sin ganar nitidez: se sirven a su tamaño nativo, y el
+// del reel se ajusta al ancho real de su hueco.
+const VIDEO = (id, t) => CLD_VIDEO + (t || "q_auto,f_auto:video") + "/" + id + ".mp4";
+const POSTER = (id) => CLD_VIDEO + "so_3,w_900,f_jpg,q_auto/" + id + ".jpg";
 
 /**
  * Reproduce el video en bucle y sin sonido, insistiendo si el navegador lo
@@ -239,11 +238,11 @@ export default function Landing({ posts = [] }) {
       <section id="top" className="hero">
         <video
           ref={heroRef}
-          poster={POSTER(HERO_ID)}
+          poster={POSTER(HERO_ANCHO_ID)}
           autoPlay loop muted playsInline preload="auto"
         >
-          <source src={VIDEO_MOVIL(HERO_ID)} media="(max-width: 820px)" type="video/mp4" />
-          <source src={VIDEO_ANCHO(HERO_ID)} type="video/mp4" />
+          <source src={VIDEO(HERO_MOVIL_ID)} media="(max-width: 820px)" type="video/mp4" />
+          <source src={VIDEO(HERO_ANCHO_ID)} type="video/mp4" />
         </video>
         <div className="veil-1" />
         <div className="veil-2" />
@@ -345,8 +344,7 @@ export default function Landing({ posts = [] }) {
               poster={POSTER(REEL_ID)}
               loop muted playsInline preload="none"
             >
-              <source src={VIDEO_MOVIL(REEL_ID)} media="(max-width: 820px)" type="video/mp4" />
-              <source src={VIDEO_ANCHO(REEL_ID)} type="video/mp4" />
+              <source src={VIDEO(REEL_ID, "w_620,q_auto,f_auto:video")} type="video/mp4" />
             </video>
             <div className="veil" />
             {/* eslint-disable-next-line @next/next/no-img-element */}

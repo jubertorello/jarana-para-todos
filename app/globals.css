@@ -189,10 +189,8 @@ a:hover { color: var(--yellow); }
   gap: clamp(44px, 6vw, 80px); align-items: center;
 }
 .col { display: flex; flex-direction: column; gap: 34px; }
-.casa h2 {
-  margin: 0; font-weight: 700; font-size: clamp(26px, 2.7vw, 40px);
-  line-height: 1.16; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance;
-}
+/* Sin h2: el rotulo de seccion hace de encabezado, con algo mas de cuerpo */
+.casa .eyebrow { font-size: 11px; color: rgba(244,243,240,.62); }
 .about-cierre { color: var(--paper) !important; font-weight: 700; }
 .casa p { margin: 0; max-width: 58ch; font-size: 15.5px; line-height: 1.8; color: rgba(244,243,240,.64); text-wrap: pretty; }
 

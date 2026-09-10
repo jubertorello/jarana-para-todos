@@ -272,7 +272,6 @@ export default function Landing({ posts = [] }) {
       <section id="casa" className="casa">
         <div className="col">
           <span className="eyebrow">02 &mdash; {t.aboutLabel}</span>
-          <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
           <p>{t.aboutP2}</p>
           <p className="about-cierre">{t.aboutP3}</p>

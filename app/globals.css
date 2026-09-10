@@ -49,6 +49,9 @@ a:hover { color: var(--yellow); }
   letter-spacing: 0.3em; text-transform: uppercase;
   color: rgba(244, 243, 240, 0.4);
 }
+/* El numero de seccion lleva el amarillo de marca: en movil no hay hover,
+   asi que el color tiene que vivir en el estado de reposo. */
+.eyebrow-num { font-weight: 700; color: var(--yellow); }
 .titular {
   font-family: "Montserrat", Helvetica, sans-serif;
   font-weight: 700; letter-spacing: -0.03em;

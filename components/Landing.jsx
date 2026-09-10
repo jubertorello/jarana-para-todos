@@ -281,7 +281,7 @@ export default function Landing({ posts = [] }) {
       <section id="comunidad" className="comunidad">
         <div className="com-in">
           <div className="com-head">
-            <span className="eyebrow">01 &mdash; {t.comLabel}</span>
+            <span className="eyebrow"><b className="eyebrow-num">01</b> &mdash; {t.comLabel}</span>
             <h2 className="titular">{t.comTitulo}</h2>
           </div>
 
@@ -330,7 +330,7 @@ export default function Landing({ posts = [] }) {
 
       <section id="casa" className="casa">
         <div className="col">
-          <span className="eyebrow">02 &mdash; {t.aboutLabel}</span>
+          <span className="eyebrow"><b className="eyebrow-num">02</b> &mdash; {t.aboutLabel}</span>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutP1}</p>
           <p>{t.aboutP2}</p>
@@ -381,7 +381,7 @@ export default function Landing({ posts = [] }) {
       <section id="ventajas" className="ventajas">
         <div className="ven-in">
           <div className="ven-head">
-            <span className="eyebrow">03 &mdash; {t.venLabel}</span>
+            <span className="eyebrow"><b className="eyebrow-num">03</b> &mdash; {t.venLabel}</span>
             <h2 className="titular">{t.venTitulo}</h2>
           </div>
 
@@ -512,7 +512,7 @@ export default function Landing({ posts = [] }) {
 
       <section id="faq" className="faq">
         <div className="faq-in">
-          <span className="eyebrow">04 &mdash; {t.faqLabel}</span>
+          <span className="eyebrow"><b className="eyebrow-num">04</b> &mdash; {t.faqLabel}</span>
           <ul className="faq-lista">
             {t.faq.map((f) => (
               <li key={f.p}>
@@ -526,7 +526,7 @@ export default function Landing({ posts = [] }) {
 
       <section id="cierre" className="cierre">
         <div className="cierre-in">
-          <span className="eyebrow">05 &mdash; {t.cierreLabel}</span>
+          <span className="eyebrow"><b className="eyebrow-num">05</b> &mdash; {t.cierreLabel}</span>
           <h2>{t.cierreTitulo}</h2>
           <p>{t.cierreTexto}</p>
           {/* La frase de marca cierra el circulo con el hero */}

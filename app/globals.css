@@ -231,25 +231,54 @@ a:hover { color: var(--yellow); }
    reticulas. La unica franja a sangre es la verde de ciudades, que es un
    fondo de color y no una linea. */
 
-/* ---------- prensa ---------- */
-/* El mismo aire por debajo de los logos que por encima: la banda ya es
-   simetrica (40/40), pero arriba suma otros 40 de separacion con el
-   rotulo y abajo la seccion se cortaba en seco. */
-.press {
+/* ---------- 03 ventajas ---------- */
+.ventajas {
   border-top: 1px solid var(--line); background: var(--ink-2);
-  padding-bottom: clamp(30px, 4vw, 40px);
+  padding-bottom: clamp(56px, 7vw, 80px);
 }
-.press-in {
+.ven-in {
   max-width: 1240px; margin: 0 auto;
-  padding: clamp(56px, 7vw, 76px) clamp(20px, 4vw, 32px) clamp(30px, 4vw, 40px);
-  display: flex; flex-direction: column; gap: 44px;
+  padding: 0 clamp(20px, 4vw, 32px);
+  display: flex; flex-direction: column; gap: clamp(34px, 4vw, 46px);
 }
-.press-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; }
-/* 14 partners: solo 7 y 2 columnas dan filas exactas. 7 en escritorio
-   (2 filas) y 2 en movil (7 filas); los tamaños intermedios llevan una
-   ultima fila incompleta, que en un muro de partners lee bien. */
-/* Los partners pasan de rejilla a carrusel. En sentido contrario al de
-   ciudades, para que las dos bandas no parezcan la misma. */
+.ven-in:first-child { padding-top: clamp(64px, 8vw, 92px); }
+.ven-head { display: flex; flex-direction: column; gap: 18px; }
+.ven-head h2 {
+  margin: 0; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.12;
+  max-width: 20ch; text-wrap: balance;
+}
+.ven-texto {
+  margin: 0; max-width: 62ch; font-size: 15.5px; line-height: 1.8;
+  color: rgba(244,243,240,.64); text-wrap: pretty;
+}
+
+/* Mosaico: mezcla de horizontales y verticales, como pedia el brief.
+   Las celdas marcadas como altas ocupan dos filas. */
+/* 4 columnas x 2 filas = 8 huecos. Dos celdas verticales ocupan dos filas
+   cada una y las otras cuatro rellenan el resto: tila exacto y mezcla
+   formatos horizontal y vertical, como pedia el brief. */
+.mosaico {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 158px; grid-auto-flow: dense; gap: 1px; padding: 1px;
+}
+.mos-celda {
+  position: relative; margin: 0; overflow: hidden;
+  background: var(--ink); box-shadow: 0 0 0 1px var(--line);
+  display: flex; align-items: center; justify-content: center;
+}
+.mos-celda[data-alto] { grid-row: span 2; }
+.mos-celda img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mos-celda[data-pendiente="true"] {
+  background-image: repeating-linear-gradient(135deg, rgba(244,243,240,.045) 0 7px, transparent 7px 15px);
+}
+.mos-celda span {
+  font: 500 9px/1 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .24em; text-transform: uppercase; color: rgba(244,243,240,.28);
+}
+
+.ven-partners { padding-top: clamp(48px, 6vw, 68px); }
+/* Carrusel de partners. Gira en sentido contrario al de ciudades para que
+   las dos bandas no parezcan la misma. */
 .pmarquee { overflow: hidden; }
 .pmarquee-track { display: flex; width: max-content; animation: jmarqrev 54s linear infinite; }
 .pmarquee-run { display: flex; align-items: center; gap: 64px; padding-right: 64px; }
@@ -264,11 +293,9 @@ a:hover { color: var(--yellow); }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--green); display: block; flex: none;
 }
-/* Los logos llegan con proporciones muy distintas (uno 6:1, otro 2:1), y
-   normalizar solo por altura deja las letras del mas cuadrado diminutas.
-   Se limitan las dos dimensiones: los apaisados los frena el ancho y los
-   cuadrados la altura, con lo que pesan parecido en la fila.
-   El blanco los iguala sobre el fondo oscuro. */
+/* Los logos llegan con proporciones muy distintas: cada uno lleva su
+   altura de dibujo para que sus letras pesen parecido en la fila. El
+   blanco los iguala sobre el fondo oscuro. */
 .pmarquee-run span img {
   height: var(--h, 40px); max-width: 220px; width: auto;
   object-fit: contain; display: block; flex: none;
@@ -276,6 +303,49 @@ a:hover { color: var(--yellow); }
   opacity: .62; transition: opacity .3s;
 }
 .pmarquee-run span img:hover { opacity: 1; }
+
+
+/* Las dos fichas: carnet y grupos */
+.ven-fichas {
+  margin-top: clamp(40px, 5vw, 60px);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px; padding: 1px;
+}
+.ficha {
+  background: var(--ink); box-shadow: 0 0 0 1px var(--line);
+  padding: clamp(28px, 3vw, 38px);
+  display: flex; flex-direction: column; gap: 14px; align-items: flex-start;
+}
+.ficha h3 {
+  margin: 0 0 4px; font-size: clamp(19px, 2vw, 24px); font-weight: 700;
+  letter-spacing: -.02em;
+}
+.ficha p { margin: 0; font-size: 14px; line-height: 1.75; color: rgba(244,243,240,.66); }
+.ficha-extra { color: rgba(244,243,240,.44) !important; font-size: 13px !important; }
+.btn-ficha {
+  margin-top: 10px;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--paper); color: var(--ink);
+  border-radius: 999px; padding: 14px 22px;
+  font: 700 10px/1 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .2em; text-transform: uppercase;
+  transition: background .3s, transform .3s;
+}
+.btn-ficha i { font-style: normal; font-size: 13px; line-height: 1; }
+.btn-ficha:hover { background: var(--yellow); color: var(--ink); transform: translateY(-1px); }
+
+@media (max-width: 900px) {
+  /* A dos columnas las celdas verticales descuadran la reticula */
+  .mosaico { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+  .mos-celda[data-alto] { grid-row: auto; }
+  .ven-fichas { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .ven-in:first-child { padding-top: 56px; }
+  .ven-head h2 { font-size: clamp(23px, 6.8vw, 32px); }
+  .ven-texto { font-size: 14.5px; line-height: 1.7; }
+  .mosaico { grid-auto-rows: 118px; }
+  .ficha { padding: 24px 20px; }
+}
 
 /* ---------- 01 comunidad ---------- */
 .comunidad { border-top: 1px solid var(--line); }
@@ -671,9 +741,6 @@ footer { border-top: 1px solid var(--line); background: var(--ink-2); }
   .stat { padding: 20px 16px; gap: 7px; }
   .stat b { font-size: 29px; }
   .stat span { font-size: 8.5px; letter-spacing: .18em; }
-
-  .press-in { padding: 52px 20px; gap: 32px; }
-  .press-head { gap: 10px; }
 
   .foot-grid { grid-template-columns: 1fr 1fr; padding: 48px 20px 28px; gap: 30px 20px; }
   .foot-note { font-size: 12.5px; max-width: none; }

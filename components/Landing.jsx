@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS,
+  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS, MOSAICO,
   cldThumb, cldFull, cldLogo
 } from "@/lib/copy";
 
@@ -322,11 +322,31 @@ export default function Landing({ posts = [] }) {
         </div>
       </div>
 
-      <section className="press">
-        <div className="press-in">
-          <div className="press-head">
-            <span className="eyebrow">03 &mdash; {t.pressLabel}</span>
+      <section id="ventajas" className="ventajas">
+        <div className="ven-in">
+          <div className="ven-head">
+            <span className="eyebrow">03 &mdash; {t.venLabel}</span>
+            <h2 className="titular">{t.venTitulo}</h2>
           </div>
+
+          <div className="mosaico">
+            {MOSAICO.map((m, i) => (
+              <figure className="mos-celda" key={i} data-alto={m.alto || undefined} data-pendiente={!m.id}>
+                {m.id ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={cldThumb(m.id)} alt="" loading="lazy" />
+                ) : (
+                  <span>{t.mosaicoPendiente}</span>
+                )}
+              </figure>
+            ))}
+          </div>
+
+          <p className="ven-texto">{t.venTexto}</p>
+        </div>
+
+        <div className="ven-in ven-partners">
+          <span className="eyebrow">{t.pressLabel}</span>
         </div>
         <div className="pmarquee">
           <div className="pmarquee-track">
@@ -350,6 +370,27 @@ export default function Landing({ posts = [] }) {
                 ))}
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="ven-in">
+          <div className="ven-fichas">
+            <article className="ficha">
+              <h3>{t.carnetTitulo}</h3>
+              <p>{t.carnetTexto}</p>
+              <p className="ficha-extra">{t.carnetExtra}</p>
+              <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
+                {t.carnetCta}<i aria-hidden="true">&#8599;</i>
+              </a>
+            </article>
+            <article className="ficha">
+              <h3>{t.grupoTitulo}</h3>
+              <p>{t.grupoTexto}</p>
+              <p className="ficha-extra">{t.grupoExtra}</p>
+              <a className="btn-ficha" href={WA_URL} target="_blank" rel="noopener">
+                {t.grupoCta}<i aria-hidden="true">&#8599;</i>
+              </a>
+            </article>
           </div>
         </div>
       </section>

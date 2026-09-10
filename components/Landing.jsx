@@ -542,8 +542,16 @@ export default function Landing({ posts = [] }) {
       <footer>
         <div className="foot-grid">
           <div className="foot-marca">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/logo-white.webp" alt="Jarana Para Todos" />
+            {/* La medalla giratoria, sin texto debajo */}
+            <div className="medal">
+              <span className="halo" />
+              <span className="ring" />
+              <span className="sheen" />
+              <span className="core">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/assets/globe-white.webp" alt="Jarana Para Todos" />
+              </span>
+            </div>
             <div className="foot-redes">
               <a href={IG_URL} target="_blank" rel="noopener" aria-label="Instagram">
                 <IconoInstagram />

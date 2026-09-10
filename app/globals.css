@@ -643,9 +643,35 @@ footer { background: var(--ink-2); }
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 64px);
 }
 
-/* Columna izquierda: solo el logo y, debajo, las redes en iconos */
+/* La medalla: el globo con el anillo giratorio en los colores de marca */
+.medal {
+  position: relative; width: clamp(96px, 22vw, 126px); height: clamp(96px, 22vw, 126px);
+  flex: none; display: flex; align-items: center; justify-content: center;
+}
+.medal .halo {
+  position: absolute; inset: -14px; border-radius: 50%;
+  background: conic-gradient(from 0deg, #00812d, #ffdf4d, #00812d, #ffdf4d, #00812d);
+  filter: blur(18px); opacity: .42; animation: jspin 7s linear infinite;
+}
+.medal .ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(from 0deg, #00812d 0deg, #ffdf4d 90deg, #00812d 180deg, #ffdf4d 270deg, #00812d 360deg);
+  animation: jspin 6s linear infinite;
+}
+.medal .sheen {
+  position: absolute; inset: 4px; border-radius: 50%;
+  background: conic-gradient(from 180deg, rgba(255,223,77,.9), rgba(0,129,45,0) 40%, rgba(255,223,77,.75) 70%, rgba(0,129,45,0));
+  animation: jspin 3.4s linear infinite reverse; mix-blend-mode: screen;
+}
+.medal .core {
+  position: absolute; inset: 6px; border-radius: 50%; background: var(--ink-2);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.medal .core img { width: 64%; height: auto; opacity: .92; animation: jfloat 9s ease-in-out infinite; }
+
+/* Columna izquierda: solo la medalla y, debajo, las redes en iconos */
 .foot-marca { display: flex; flex-direction: column; gap: 26px; align-items: flex-start; }
-.foot-marca img { width: clamp(84px, 10vw, 108px); height: auto; display: block; }
+
 .foot-redes { display: flex; align-items: center; gap: 10px; }
 .foot-redes a {
   width: 42px; height: 42px; border-radius: 50%;

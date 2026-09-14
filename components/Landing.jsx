@@ -22,10 +22,6 @@ const SPOTIFY_URL =
 const YOUTUBE_URL =
   process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://www.youtube.com/@JaranaParaTodos";
 const EMAIL = process.env.NEXT_PUBLIC_EMAIL || "hola@jaranaparatodos.com";
-// Newsletter: mientras no haya formulario, se resuelve por correo.
-const NEWSLETTER_URL =
-  process.env.NEXT_PUBLIC_NEWSLETTER_URL ||
-  "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Quiero suscribirme a la newsletter");
 const PLATFORM = "Fourvenues";
 // Videos. Los tres viven en la cuenta secundaria de Cloudinary.
 const CLD_VIDEO = "https://res.cloudinary.com/scihumn2/video/upload/";
@@ -678,7 +674,6 @@ export default function Landing({ posts = [] }) {
             <a href={"mailto:" + EMAIL}>{t.footMail}</a>
             <a href={WA_URL} target="_blank" rel="noopener">{t.footWa}</a>
             <a href={IG_DM} target="_blank" rel="noopener">{t.footDm}</a>
-            <a href={NEWSLETTER_URL}>{t.footNews}</a>
             <a href={WA_GRUPO} target="_blank" rel="noopener">{t.footGrupo}</a>
           </div>
         </div>

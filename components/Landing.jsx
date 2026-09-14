@@ -88,6 +88,10 @@ const IconoYouTube = () => (
   </svg>
 );
 
+/* Tira de merchandising: avanza sola, en bucle de verdad. El contenido va
+   duplicado, asi que al pasar de la mitad se resta un ciclo entero: lo que
+   queda delante es identico a lo que se venia viendo y el salto no se ve.
+   Antes volvia al principio con un scroll animado y se notaba el rebobinado. */
 function useCarruselAuto() {
   const ref = useRef(null);
   useEffect(() => {
@@ -95,34 +99,82 @@ function useCarruselAuto() {
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let timer = null;
-    let parado = false;
+    const VELOCIDAD = 26; // px por segundo
+    const ESPERA = 4000;  // lo que se aparta despues de que toques la tira
 
-    const cabeEntera = () => el.scrollWidth <= el.clientWidth + 4;
-    const avanzar = () => {
-      if (parado || cabeEntera()) return;
-      const paso = el.firstElementChild ? el.firstElementChild.offsetWidth + 12 : 260;
-      const fin = el.scrollWidth - el.clientWidth - 4;
-      el.scrollTo({ left: el.scrollLeft >= fin ? 0 : el.scrollLeft + paso, behavior: "smooth" });
+    let raf = null;
+    let ultimo = 0;
+    let esperaHasta = 0;
+    let pos = el.scrollLeft;
+    let visible = true;
+
+    // Un ciclo es la distancia entre una foto y su copia. No vale
+    // scrollWidth/2: ahi entran el relleno lateral y hay un hueco menos que
+    // fotos, asi que la mitad se queda corta y el bucle iria desfasando.
+    const ciclo = () => {
+      const n = el.children.length / 2;
+      const a = el.children[0], b = el.children[n];
+      return a && b ? b.offsetLeft - a.offsetLeft : 0;
     };
 
-    const parar = () => {
-      parado = true;
-      clearTimeout(reanudar.t);
-      reanudar.t = setTimeout(() => { parado = false; }, 6000);
-    };
-    const reanudar = { t: null };
+    const paso = (t) => {
+      const c = ciclo();
+      // Un cambio de pestana deja un salto enorme entre fotogramas: se
+      // recorta para que la tira no pegue un aceleron al volver.
+      const dt = Math.min((t - (ultimo || t)) / 1000, 0.1);
+      ultimo = t;
 
-    timer = setInterval(avanzar, 3800);
-    el.addEventListener("pointerdown", parar);
-    el.addEventListener("mouseenter", parar);
-    el.addEventListener("touchstart", parar, { passive: true });
+      // El corte tiene que caer donde el contenido se repite, o sea en el
+      // borde de la primera foto. En cero se ve el margen lateral vacio, que
+      // a mitad del bucle no existe, y el salto canta.
+      const base = el.children[0] ? el.children[0].offsetLeft : 0;
+      if (c > 0) {
+        if (t < esperaHasta) {
+          // Manda el usuario: solo se cierra el bucle al pasarse de largo.
+          pos = el.scrollLeft;
+          if (pos >= base + c) { pos -= c; el.scrollLeft = pos; }
+        } else if (c > el.clientWidth) {
+          pos += VELOCIDAD * dt;
+          if (pos >= base + c) pos -= c;
+          el.scrollLeft = pos;
+        }
+      }
+      raf = requestAnimationFrame(paso);
+    };
+
+    const arrancar = () => { if (raf == null) { ultimo = 0; raf = requestAnimationFrame(paso); } };
+    const detener = () => { if (raf != null) { cancelAnimationFrame(raf); raf = null; } };
+
+    const apartarse = () => {
+      esperaHasta = performance.now() + ESPERA;
+      // Ya sabe que se desliza, la pista sobra.
+      el.dataset.tocado = "true";
+    };
+
+    // Fuera de pantalla no tiene sentido seguir moviendola.
+    let obs = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      obs = new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible) arrancar(); else detener();
+      }, { threshold: 0 });
+      obs.observe(el);
+    } else {
+      arrancar();
+    }
+
+    el.addEventListener("pointerdown", apartarse);
+    el.addEventListener("wheel", apartarse, { passive: true });
+    el.addEventListener("mouseenter", apartarse);
+    el.addEventListener("touchstart", apartarse, { passive: true });
+
     return () => {
-      clearInterval(timer);
-      clearTimeout(reanudar.t);
-      el.removeEventListener("pointerdown", parar);
-      el.removeEventListener("mouseenter", parar);
-      el.removeEventListener("touchstart", parar);
+      detener();
+      if (obs) obs.disconnect();
+      el.removeEventListener("pointerdown", apartarse);
+      el.removeEventListener("wheel", apartarse);
+      el.removeEventListener("mouseenter", apartarse);
+      el.removeEventListener("touchstart", apartarse);
     };
   }, []);
   return ref;
@@ -455,10 +507,17 @@ export default function Landing({ posts = [] }) {
                     {PARTNER_LOGOS[p] ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={cldLogo(PARTNER_LOGOS[p].id)}
+                        src={cldLogo(PARTNER_LOGOS[p].id, PARTNER_LOGOS[p].h)}
                         alt={p}
-                        loading="lazy"
-                        style={{ "--h": PARTNER_LOGOS[p].h + "px" }}
+                        /* Sin lazy: la cinta no para, y un logo que aparece a
+                           medio recorrido mide 0 hasta que carga y da un tiron
+                           a toda la fila. */
+                        loading="eager"
+                        decoding="async"
+                        style={{
+                          "--h": PARTNER_LOGOS[p].h + "px",
+                          "--ar": PARTNER_LOGOS[p].ar
+                        }}
                       />
                     ) : (
                       p
@@ -532,21 +591,30 @@ export default function Landing({ posts = [] }) {
           {/* Tira con todas las fotos, pasando sola. Cada una conserva su
               formato (los cascos apaisados, los cromos verticales) y lleva
               la etiqueta de la pieza encima. No son pinchables. */}
+          {/* Va dos veces: el bucle sin costura necesita que lo que viene
+              detras sea identico a lo que se acaba de ver. */}
           <div className="merch-tira rv" ref={merchRef} style={{ "--d": ".08s" }}>
-            {MERCH_TIRA.map((f) => {
-              const pieza = t.merch.find((m) => m.k === f.k);
-              return (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  className="merch-foto"
-                  src={cldThumb(f.id)}
-                  alt={pieza?.t || ""}
-                  key={f.id}
-                  loading="lazy"
-                />
-              );
-            })}
+            {[0, 1].map((copia) =>
+              MERCH_TIRA.map((f) => {
+                const pieza = t.merch.find((m) => m.k === f.k);
+                return (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="merch-foto"
+                    src={cldThumb(f.id)}
+                    alt={copia === 0 ? pieza?.t || "" : ""}
+                    aria-hidden={copia === 1 ? "true" : undefined}
+                    key={copia + "-" + f.id}
+                    loading="lazy"
+                  />
+                );
+              })
+            )}
           </div>
+          <p className="merch-pista" aria-hidden="true">
+            <span>{t.merchPista}</span>
+            <i />
+          </p>
         </div>
       </section>
 

@@ -394,7 +394,9 @@ html, body { overflow-x: clip; }
    altura de dibujo para que sus letras pesen parecido en la fila. El
    blanco los iguala sobre el fondo oscuro. */
 .pmarquee-run span img {
-  height: var(--h, 40px); max-width: 220px; width: auto;
+  /* La proporcion reserva el hueco antes de que cargue la imagen: sin esto
+     el logo mide 0 de ancho y la cinta entera pega un tiron al llegar. */
+  height: var(--h, 40px); aspect-ratio: var(--ar, 3); width: auto;
   object-fit: contain; display: block; flex: none;
   filter: brightness(0) invert(1);
   opacity: .62; transition: opacity .3s;
@@ -583,14 +585,43 @@ html, body { overflow-x: clip; }
    Avanza sola y se detiene en cuanto el usuario interviene. */
 .merch-tira {
   display: flex; gap: 10px; overflow-x: auto;
-  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   margin-inline: calc(clamp(20px, 4vw, 32px) * -1);
   padding-inline: clamp(20px, 4vw, 32px);
+  cursor: grab;
+  /* Las fotos se desvanecen en los bordes en vez de cortarse en seco: se
+     lee que la tira sigue hacia los lados. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.merch-tira:active { cursor: grabbing; }
+
+/* Pista de que se desliza. Desaparece en cuanto la tocas. */
+.merch-pista {
+  display: flex; align-items: center; gap: 8px; margin: 14px 0 0;
+  font: 500 10px/1 "Montserrat", Helvetica, sans-serif;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(244,243,240,.34);
+  transition: opacity .4s ease;
+}
+.merch-pista i {
+  width: 22px; height: 1px; background: currentColor; display: block;
+  position: relative; animation: pistaEmpuja 1.9s ease-in-out infinite;
+}
+.merch-pista i::after {
+  content: ""; position: absolute; right: 0; top: -2px;
+  width: 5px; height: 5px; border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor; transform: rotate(45deg);
+}
+@keyframes pistaEmpuja { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+.merch-tira[data-tocado="true"] ~ .merch-pista { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .merch-pista i { animation: none; }
 }
 .merch-tira::-webkit-scrollbar { display: none; }
 .merch-foto {
-  flex: 0 0 auto; scroll-snap-align: start;
+  flex: 0 0 auto;
   height: clamp(230px, 25vw, 330px); width: auto; display: block;
   object-fit: cover; background: #0c0d10;
   box-shadow: 0 0 0 1px var(--line);
@@ -873,7 +904,7 @@ footer { background: var(--ink-2); }
   .marquee-run span { gap: 30px; font-size: 10px; letter-spacing: .2em; }
   .pmarquee-run { gap: 40px; padding-right: 40px; }
   .pmarquee-run span { gap: 40px; font-size: 13px; padding: 28px 0; }
-  .pmarquee-run span img { height: calc(var(--h, 40px) * .78); max-width: 165px; }
+  .pmarquee-run span img { height: calc(var(--h, 40px) * .78); }
 
   .casa { padding: 64px 20px 56px; }
   .col { gap: 26px; }

@@ -651,13 +651,13 @@ html, body { overflow-x: clip; }
 .cierre-in {
   max-width: 1240px; margin: 0 auto;
   padding: clamp(76px, 10vw, 120px) clamp(20px, 4vw, 32px) clamp(84px, 11vw, 132px);
-  display: flex; flex-direction: column; align-items: center; text-align: center;
+  display: flex; flex-direction: column; align-items: flex-start; text-align: left;
   gap: clamp(20px, 2.4vw, 28px);
 }
 .cierre h2 {
   margin: 0; font-weight: 700; letter-spacing: -.02em;
   font-size: clamp(27px, 3.4vw, 46px); line-height: 1.1;
-  max-width: 18ch; text-wrap: balance;
+  max-width: 18ch; text-wrap: pretty;
 }
 .cierre p {
   margin: 0; max-width: 56ch; font-size: 15.5px; line-height: 1.8;
@@ -667,11 +667,11 @@ html, body { overflow-x: clip; }
 /* El remate. Es la pieza mas grande de la pagina despues del titular del
    hero, y repite su tratamiento a dos tonos para cerrar el circulo. */
 .cierre-frase {
-  margin: clamp(26px, 3.6vw, 48px) auto 0 !important;
+  margin: clamp(26px, 3.6vw, 48px) 0 0 !important;
   max-width: none !important;
   width: min(680px, 100%);
   position: relative; isolation: isolate;
-  display: grid; place-items: center;
+  display: grid; place-items: start;
 }
 /* Un resplandor de marca detras del rotulo, para que la frase parezca
    iluminada y no pegada encima del negro. */

@@ -278,7 +278,8 @@ html, body { overflow-x: clip; }
 
 /* ---------- 03 ventajas ---------- */
 .ventajas {
-  border-top: 1px solid var(--line); background: var(--ink-2);
+  /* Sin raya separadora: lo que separa esta seccion es el cambio de fondo. */
+  background: var(--ink-2);
   padding-bottom: clamp(56px, 7vw, 80px);
 }
 .ven-in {
@@ -477,7 +478,6 @@ html, body { overflow-x: clip; }
 }
 
 /* ---------- 01 comunidad ---------- */
-.comunidad { border-top: 1px solid var(--line); }
 .com-in {
   max-width: 1240px; margin: 0 auto;
   padding: clamp(64px, 9vw, 100px) clamp(20px, 4vw, 32px) clamp(72px, 9vw, 108px);
@@ -635,7 +635,6 @@ html, body { overflow-x: clip; }
 }
 
 /* ---------- 04 preguntas frecuentes ---------- */
-.faq { border-top: 1px solid var(--line); }
 .faq-in {
   max-width: 1240px; margin: 0 auto;
   padding: clamp(64px, 8vw, 96px) clamp(20px, 4vw, 32px) clamp(72px, 9vw, 104px);
@@ -673,7 +672,6 @@ html, body { overflow-x: clip; }
 
 /* ---------- 05 cierre ---------- */
 .cierre {
-  border-top: 1px solid var(--line);
   /* El resplandor de la frase se sale por los lados a proposito. Se recorta
      aqui para que no genere scroll horizontal; como la seccion va a sangre,
      el corte cae fuera de pantalla y no se nota. */

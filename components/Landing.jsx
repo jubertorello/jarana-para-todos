@@ -427,7 +427,12 @@ export default function Landing({ posts = [] }) {
               <figure className="mos-celda" key={i} style={{ gridArea: m.hueco }} data-pendiente={!m.id}>
                 {m.id ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cldThumb(m.id, m.w)} alt={m.alt || ""} loading="lazy" />
+                  <img
+                    src={cldThumb(m.id, m.w)}
+                    alt={m.alt || ""}
+                    loading="lazy"
+                    style={m.pos ? { objectPosition: m.pos } : undefined}
+                  />
                 ) : (
                   <span>{t.mosaicoPendiente}</span>
                 )}

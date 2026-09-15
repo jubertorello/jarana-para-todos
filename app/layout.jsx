@@ -47,6 +47,11 @@ export const metadata = {
   icons: {
     icon: "/assets/globe-color.png",
     apple: "/assets/logo-color.png"
+  },
+  // Verificacion de Google Search Console. Next la escribe como
+  // <meta name="google-site-verification"> dentro del <head>.
+  verification: {
+    google: "BlLUMf0qJE-fHikiiiZYNEZdNIdxsZX_oFAh2KcOSU0"
   }
 };
 

@@ -640,6 +640,13 @@ html, body { overflow-x: clip; }
   padding: clamp(64px, 8vw, 96px) clamp(20px, 4vw, 32px) clamp(72px, 9vw, 104px);
   display: flex; flex-direction: column; gap: clamp(32px, 4vw, 44px);
 }
+/* Misma cabecera que el resto de secciones: rotulo pequeno arriba y
+   titular debajo. */
+.faq-head { display: flex; flex-direction: column; gap: 18px; }
+.faq-head h2 {
+  margin: 0; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.12;
+  max-width: 20ch; text-wrap: balance;
+}
 /* Dos columnas: ocho preguntas en una sola columna obligaban a un scroll
    muy largo en escritorio. */
 .faq-lista {

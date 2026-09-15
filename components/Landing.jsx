@@ -13,7 +13,12 @@ const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");
 const WA_URL = "https://wa.me/" + WHATSAPP;
 // Grupo de WhatsApp. Mientras no exista el enlace del grupo, apunta al chat
 // directo para que el boton no quede muerto.
-const WA_GRUPO = process.env.NEXT_PUBLIC_WHATSAPP_GRUPO || WA_URL;
+// Invitacion al grupo. Sin los parametros que WhatsApp cuelga al
+// compartir (s, p, mlu, ilr): son de seguimiento y el codigo es lo unico
+// que hace falta.
+const WA_GRUPO =
+  process.env.NEXT_PUBLIC_WHATSAPP_GRUPO ||
+  "https://chat.whatsapp.com/GTOB9TFMjhFGJXEEgcPmKN";
 // Mensaje directo de Instagram
 const IG_DM = "https://ig.me/m/" + HANDLE.replace("@", "");
 const SPOTIFY_URL =

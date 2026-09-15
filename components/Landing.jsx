@@ -333,7 +333,10 @@ export default function Landing({ posts = [] }) {
         <video
           ref={heroRef}
           poster={POSTER(HERO_ANCHO_ID)}
-          autoPlay loop muted playsInline preload="auto"
+          /* metadata y no auto: con auto el navegador se bajaba los 43 s
+             enteros nada mas abrir, aunque el visitante se fuera a los dos.
+             Asi se descarga solo lo que se va viendo. Arranca igual. */
+          autoPlay loop muted playsInline preload="metadata"
         >
           <source src={VIDEO(HERO_MOVIL_ID)} media="(max-width: 820px)" type="video/mp4" />
           <source src={VIDEO(HERO_ANCHO_ID)} type="video/mp4" />

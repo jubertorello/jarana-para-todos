@@ -6,7 +6,9 @@ import {
   cldThumb, cldFull, cldLogo
 } from "@/lib/copy";
 
-const TICKET_URL = process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
+const TICKET_URL =
+  process.env.NEXT_PUBLIC_TICKET_URL ||
+  "https://www.fourvenues.com/jarana-para-todos-uk/RA7A";
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
 const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");

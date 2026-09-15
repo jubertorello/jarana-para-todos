@@ -43,8 +43,20 @@ const REEL_ID =
 // Los originales son de 720px de ancho, asi que pedirlos mas grandes solo
 // agranda el archivo sin ganar nitidez: se sirven a su tamaño nativo, y el
 // del reel se ajusta al ancho real de su hueco.
+/* Los dos videos del hero duran 43,7 s y acaban con una tarjeta del logo:
+   nadie ve eso entero de fondo, y el bucle volvia del logo al principio de
+   golpe. Cloudinary los recorta al vuelo, sin resubir nada. El tramo 24-36
+   es el mas fuerte: gente bailando, sin el plano lavado del segundo 6. */
+const HERO_DESDE = 24;
+const HERO_HASTA = 36;
+const RECORTE = "so_" + HERO_DESDE + ",eo_" + HERO_HASTA;
+
 const VIDEO = (id, t) => CLD_VIDEO + (t || "q_auto,f_auto:video") + "/" + id + ".mp4";
-const POSTER = (id) => CLD_VIDEO + "so_3,w_900,f_jpg,q_auto/" + id + ".jpg";
+/* eco solo en movil: ahi se descargaba con datos y pesaba 11,7 MB. */
+const VIDEO_HERO = (id, extra) =>
+  CLD_VIDEO + RECORTE + "," + (extra || "q_auto") + ",f_auto:video/" + id + ".mp4";
+const POSTER = (id, desde) =>
+  CLD_VIDEO + "so_" + (desde === undefined ? 3 : desde) + ",w_900,f_jpg,q_auto/" + id + ".jpg";
 
 /* La frase de marca rotulada en Arsenica. El PNG viene en negro sobre blanco
    opaco, asi que e_trim le quita el margen y en CSS se invierte y se funde
@@ -328,11 +340,11 @@ export default function Landing({ posts = [] }) {
       <section id="top" className="hero">
         <video
           ref={heroRef}
-          poster={POSTER(HERO_ANCHO_ID)}
+          poster={POSTER(HERO_ANCHO_ID, HERO_DESDE)}
           autoPlay loop muted playsInline preload="auto"
         >
-          <source src={VIDEO(HERO_MOVIL_ID)} media="(max-width: 820px)" type="video/mp4" />
-          <source src={VIDEO(HERO_ANCHO_ID)} type="video/mp4" />
+          <source src={VIDEO_HERO(HERO_MOVIL_ID, "q_auto:eco")} media="(max-width: 820px)" type="video/mp4" />
+          <source src={VIDEO_HERO(HERO_ANCHO_ID)} type="video/mp4" />
         </video>
         <div className="veil-1" />
         <div className="veil-2" />

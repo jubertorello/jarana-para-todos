@@ -2,15 +2,17 @@ import "./globals.css";
 
 import { SITE_URL, SITE } from "@/lib/site";
 
+// 143 caracteres: Google corta sobre los 160 y la anterior se pasaba.
+// Empieza por "tardeos" a proposito, que es como se busca esto en España
+// y no aparecia por ninguna parte de los metadatos.
 const DESCRIPCION =
-  "Productora de fiestas privadas y eventos diurnos. Producción propia, " +
-  "discreción absoluta y secret locations en Madrid, Barcelona, Mallorca, " +
-  "Bali, Buenos Aires y otras 10 ciudades.";
+  "Tardeos y fiestas privadas con producción propia, discreción absoluta " +
+  "y secret locations en Madrid, Barcelona, Mallorca, Bali y 7 ciudades más.";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Jarana Para Todos · Productora de fiestas privadas",
+    default: "Jarana Para Todos · Tardeos y fiestas privadas",
     template: "%s · Jarana Para Todos"
   },
   description: DESCRIPCION,
@@ -19,6 +21,7 @@ export const metadata = {
   creator: SITE.empresa,
   publisher: SITE.empresa,
   keywords: [
+    "tardeo", "tardeo Madrid", "tardeo Barcelona", "tardeos",
     "fiestas privadas", "eventos privados", "productora de eventos",
     "eventos diurnos", "day party", "secret location", "Jarana Para Todos",
     "eventos Madrid", "eventos Barcelona", "fiestas exclusivas"
@@ -29,13 +32,13 @@ export const metadata = {
     siteName: SITE.nombre,
     locale: "es_ES",
     url: SITE_URL,
-    title: "Jarana Para Todos · Productora de fiestas privadas",
+    title: "Jarana Para Todos · Tardeos y fiestas privadas",
     description: DESCRIPCION,
     images: [{ url: "/assets/og.png", width: 1200, height: 630, alt: SITE.nombre }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jarana Para Todos · Productora de fiestas privadas",
+    title: "Jarana Para Todos · Tardeos y fiestas privadas",
     description: DESCRIPCION,
     images: ["/assets/og.png"]
   },

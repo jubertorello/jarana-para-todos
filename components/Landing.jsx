@@ -618,7 +618,9 @@ export default function Landing({ posts = [] }) {
 
       <section id="faq" className="faq">
         <div className="faq-in">
-          <span className="eyebrow rv"><b className="eyebrow-num">04</b> &mdash; {t.faqLabel}</span>
+          {/* h2 y no span: las preguntas son h3 y sin esto quedaban colgando
+              de nada. Visualmente es identico, la clase es la misma. */}
+          <h2 className="eyebrow rv"><b className="eyebrow-num">04</b> &mdash; {t.faqLabel}</h2>
           <ul className="faq-lista rv">
             {t.faq.map((f) => (
               <li key={f.p}>

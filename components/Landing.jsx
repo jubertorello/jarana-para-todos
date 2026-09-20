@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_APILADAS, MERCH_TIRA, MOSAICO,
+  COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_TIRA, MOSAICO,
   cldThumb, cldFull, cldLogo
 } from "@/lib/copy";
 
@@ -545,11 +545,15 @@ export default function Landing({ posts = [] }) {
             <article className="ficha rv">
               <div className="ficha-txt">
                 <h3>{t.carnetTitulo}</h3>
-                  {/* Anverso y dorso, solo como muestra: no son pinchables */}
-                  <div className="ficha-fotos">
+                  {/* Foto de muestra, no es pinchable. Las columnas salen
+                      del numero de fotos: con una sola, ocupa todo el ancho. */}
+                  <div
+                    className="ficha-fotos"
+                    style={{ "--cols": MERCH_MEDIA.carnet.length }}
+                  >
                 {MERCH_MEDIA.carnet.map((f) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cldThumb(f)} alt="" key={f} loading="lazy" />
+                  <img src={cldThumb(f)} alt="Carnet Jarana" key={f} loading="lazy" />
                 ))}
               </div>
                 <p>{t.carnetTexto}</p>

@@ -433,6 +433,8 @@ html, body { overflow-x: clip; }
 }
 .ficha-fotos img {
   width: 100%; height: auto; display: block;
+  /* Con --ar la foto se ve como una banda y no estira la ficha. */
+  aspect-ratio: var(--ar, auto); object-fit: cover;
   border-radius: 2px; box-shadow: 0 0 0 1px var(--line);
 }
 

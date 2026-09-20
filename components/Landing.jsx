@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_TIRA, MOSAICO,
-  cldThumb, cldFull, cldLogo
+  cldThumb, cldFull, cldLogo, cldBanda
 } from "@/lib/copy";
 
 const TICKET_URL =
@@ -545,17 +545,17 @@ export default function Landing({ posts = [] }) {
             <article className="ficha rv">
               <div className="ficha-txt">
                 <h3>{t.carnetTitulo}</h3>
-                  {/* Foto de muestra, no es pinchable. Las columnas salen
-                      del numero de fotos: con una sola, ocupa todo el ancho. */}
-                  <div
-                    className="ficha-fotos"
-                    style={{ "--cols": MERCH_MEDIA.carnet.length }}
-                  >
-                {MERCH_MEDIA.carnet.map((f) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cldThumb(f)} alt="Carnet Jarana" key={f} loading="lazy" />
-                ))}
-              </div>
+                {/* Foto de muestra, no es pinchable. Las columnas salen del
+                    numero de fotos: con una sola, ocupa todo el ancho. */}
+                <div
+                  className="ficha-fotos"
+                  style={{ "--cols": MERCH_MEDIA.carnet.length, "--ar": "2 / 1" }}
+                >
+                  {MERCH_MEDIA.carnet.map((f) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={cldBanda(f)} alt="Carnet Jarana" key={f} loading="lazy" />
+                  ))}
+                </div>
                 <p>{t.carnetTexto}</p>
                 <p className="ficha-extra">{t.carnetExtra}</p>
               </div>

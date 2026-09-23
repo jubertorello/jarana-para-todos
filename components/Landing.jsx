@@ -7,8 +7,7 @@ import {
 } from "@/lib/copy";
 
 const TICKET_URL =
-  process.env.NEXT_PUBLIC_TICKET_URL ||
-  "https://www.fourvenues.com/jarana-para-todos-uk/RA7A";
+  process.env.NEXT_PUBLIC_TICKET_URL || "https://linktr.ee/jaranaparatodos";
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
 const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");

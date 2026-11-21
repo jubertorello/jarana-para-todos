@@ -27,10 +27,17 @@ function demasiadosIntentos(ip) {
 
 /* Comparacion de tiempo constante: comparar con === filtra, por lo que tarda,
    cuantos caracteres se acertaron. */
+function hayClaveConfigurada() {
+  return Boolean((process.env.ADMIN_PASSWORD || "").trim());
+}
+
 function claveCorrecta(dada) {
-  const buena = process.env.ADMIN_PASSWORD || "";
+  /* Se recortan los dos lados: al pegar la contrasena en Vercel es facil
+     que se cuele un espacio o un salto de linea al final, y entonces esto
+     rechazaba la contrasena buena sin que se viera por que. */
+  const buena = (process.env.ADMIN_PASSWORD || "").trim();
   if (!buena || typeof dada !== "string") return false;
-  const a = Buffer.from(dada);
+  const a = Buffer.from(dada.trim());
   const b = Buffer.from(buena);
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
@@ -80,6 +87,16 @@ export async function POST(req) {
     cuerpo = await req.json();
   } catch {
     return Response.json({ error: "Peticion mal formada." }, { status: 400 });
+  }
+
+  /* Avisar de que no hay contrasena puesta no es una filtracion: sin ella
+     nadie puede entrar igualmente, y si no se distingue, parece que la
+     contrasena esta mal cuando el problema es otro. */
+  if (!hayClaveConfigurada()) {
+    return Response.json(
+      { error: "El panel no tiene contrasena configurada en Vercel (ADMIN_PASSWORD). Si acabas de crearla, haz Redeploy." },
+      { status: 503 }
+    );
   }
 
   if (demasiadosIntentos(ip)) {

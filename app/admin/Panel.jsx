@@ -2,6 +2,23 @@
 
 import { useState } from "react";
 
+const Ojo = () => (
+  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
+       strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M1.8 12S5.4 5 12 5s10.2 7 10.2 7-3.6 7-10.2 7S1.8 12 1.8 12z" />
+    <circle cx="12" cy="12" r="3.1" />
+  </svg>
+);
+
+const OjoTachado = () => (
+  <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
+       strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M9.9 5.2A9.6 9.6 0 0 1 12 5c6.6 0 10.2 7 10.2 7a18 18 0 0 1-2.8 3.7M6.3 6.4A17.6 17.6 0 0 0 1.8 12S5.4 19 12 19a9.5 9.5 0 0 0 4-.86" />
+    <path d="M9.9 9.9a3.1 3.1 0 0 0 4.3 4.3" />
+    <path d="M2.5 2.5l19 19" />
+  </svg>
+);
+
 const CAMPOS = [
   {
     k: "entradas",
@@ -25,6 +42,7 @@ const CAMPOS = [
 
 export default function Panel({ inicial }) {
   const [clave, setClave] = useState("");
+  const [verClave, setVerClave] = useState(false);
   const [dentro, setDentro] = useState(false);
   const [datos, setDatos] = useState(inicial);
   const [estado, setEstado] = useState(null);
@@ -84,13 +102,23 @@ export default function Panel({ inicial }) {
           <p className="adm-sub">Para editar los enlaces de la web.</p>
           <label>
             <span>Contraseña</span>
-            <input
-              type="password"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-              autoFocus
-              autoComplete="current-password"
-            />
+            <span className="adm-clave">
+              <input
+                type={verClave ? "text" : "password"}
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+                autoFocus
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                onClick={() => setVerClave(!verClave)}
+                aria-label={verClave ? "Ocultar la contraseña" : "Ver la contraseña"}
+                title={verClave ? "Ocultar" : "Ver"}
+              >
+                {verClave ? <OjoTachado /> : <Ojo />}
+              </button>
+            </span>
           </label>
           {estado ? <p className={"adm-aviso " + estado.tipo}>{estado.texto}</p> : null}
           <button type="submit" disabled={cargando || !clave}>

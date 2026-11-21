@@ -5,21 +5,18 @@ import {
   COPY, CITIES, PARTNERS, PARTNER_LOGOS, MERCH_MEDIA, MERCH_TIRA, MOSAICO,
   cldThumb, cldFull, cldLogo, cldBanda
 } from "@/lib/copy";
+import AJUSTES from "@/lib/ajustes.json";
 
-const TICKET_URL =
-  process.env.NEXT_PUBLIC_TICKET_URL || "https://site.fourvenues.com/es/jarana";
-const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP || "34613064564").replace(/[^0-9]/g, "");
+/* Estos dos enlaces y el aviso de portada se editan desde /admin, que
+   escribe en lib/ajustes.json. Son la unica fuente: a proposito ya no hay
+   variable de entorno que los pise, porque si alguien la dejaba puesta en
+   Vercel el panel parecia no funcionar. */
+const TICKET_URL = AJUSTES.entradas;
+const WHATSAPP = String(AJUSTES.whatsapp).replace(/[^0-9]/g, "");
 const HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE || "@jarana_para_todos";
 const IG_URL = "https://instagram.com/" + HANDLE.replace("@", "");
 const WA_URL = "https://wa.me/" + WHATSAPP;
-// Grupo de WhatsApp. Mientras no exista el enlace del grupo, apunta al chat
-// directo para que el boton no quede muerto.
-// Invitacion al grupo. Sin los parametros que WhatsApp cuelga al
-// compartir (s, p, mlu, ilr): son de seguimiento y el codigo es lo unico
-// que hace falta.
-const WA_GRUPO =
-  process.env.NEXT_PUBLIC_WHATSAPP_GRUPO ||
-  "https://chat.whatsapp.com/GTOB9TFMjhFGJXEEgcPmKN";
+const WA_GRUPO = AJUSTES.whatsappGrupo;
 // Mensaje directo de Instagram
 const IG_DM = "https://ig.me/m/" + HANDLE.replace("@", "");
 const SPOTIFY_URL =
@@ -673,7 +670,7 @@ export default function Landing({ posts = [] }) {
               <span className="sheen" />
               <span className="core">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/globe-white.webp" alt="Jarana Para Todos" />
+                <img src="/assets/logo-white.webp" alt="Jarana Para Todos" />
               </span>
             </div>
             <div className="foot-redes">

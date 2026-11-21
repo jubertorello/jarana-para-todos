@@ -3,7 +3,8 @@ import { SITE_URL } from "@/lib/site";
 export default function robots() {
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
+      // El panel no pinta nada en los buscadores
+      { userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] },
       // Los crawlers de IA de Meta. En septiembre de 2026 meta-externalagent
       // hizo mas de 250.000 peticiones en 12 horas pidiendo una y otra vez
       // la portada y cuatro imagenes, y casi agota el cupo de Edge Requests

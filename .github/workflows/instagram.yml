@@ -1,0 +1,58 @@
+# Refresca sola la copia del feed de Instagram.
+#
+# Por que existe: la web guarda una copia de las ultimas publicaciones para
+# seguir enseñandolas si Behold se cae o pausa la cuenta. Sin esto habria que
+# refrescarla a mano y acabaria enseñando fotos viejas.
+#
+# Gasta una consulta de Behold por ejecucion: 4 al mes, sobre un cupo de
+# 1.200. Si Behold responde con error, el script no toca la copia buena y
+# aqui no se hace commit: se vuelve a intentar la semana siguiente.
+
+name: Copia del feed de Instagram
+
+on:
+  schedule:
+    # Lunes a las 06:00 (hora peninsular en invierno)
+    - cron: "0 5 * * 1"
+  # Y tambien a mano desde la pestaña Actions
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  copia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar las ultimas publicaciones
+        id: copia
+        env:
+          BEHOLD_FEED_URL: ${{ secrets.BEHOLD_FEED_URL }}
+        # Si Behold falla el script sale con error, pero no queremos que el
+        # aviso salte cada semana: se marca y ya esta.
+        run: |
+          if node scripts/instagram-snapshot.mjs; then
+            echo "ok=si" >> "$GITHUB_OUTPUT"
+          else
+            echo "Behold no respondio. La copia anterior se queda como estaba."
+            echo "ok=no" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Subir si hay fotos nuevas
+        if: steps.copia.outputs.ok == 'si'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A lib/instagram-snapshot.json public/instagram
+          if git diff --cached --quiet; then
+            echo "Las publicaciones son las mismas. No hay nada que subir."
+          else
+            git commit -m "Actualiza la copia del feed de Instagram"
+            git push
+          fi

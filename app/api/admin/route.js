@@ -79,6 +79,35 @@ function limpia(cuerpo) {
   };
 }
 
+function cabecerasGitHub(token) {
+  return {
+    Authorization: "Bearer " + token,
+    Accept: "application/vnd.github+json",
+    "User-Agent": "jarana-admin"
+  };
+}
+
+const API_FICHERO = `https://api.github.com/repos/${REPO}/contents/${FICHERO}`;
+
+/* Lee los ajustes de GitHub, que es donde viven de verdad. No vale el
+   import de arriba: ese se congela al compilar, y si el formulario se
+   rellenaba con el, al guardar se pisaba el ultimo cambio con un valor
+   viejo. */
+async function ajustesDeGitHub(token) {
+  if (!token) return null;
+  try {
+    const res = await fetch(API_FICHERO, {
+      headers: cabecerasGitHub(token),
+      cache: "no-store"
+    });
+    if (!res.ok) return null;
+    const { content, sha } = await res.json();
+    return { ajustes: JSON.parse(Buffer.from(content, "base64").toString("utf8")), sha };
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "desconocida";
 
@@ -106,9 +135,12 @@ export async function POST(req) {
     return Response.json({ error: "Contrasena incorrecta." }, { status: 401 });
   }
 
-  /* Solo comprobar la contrasena, para la pantalla de entrada. */
+  /* Solo comprobar la contrasena, para la pantalla de entrada. Se devuelven
+     los ajustes recien leidos de GitHub, para que el formulario arranque con
+     lo que hay de verdad y no con lo que habia al compilar. */
   if (cuerpo.soloEntrar) {
-    return Response.json({ ok: true, ajustes: AJUSTES });
+    const vivo = await ajustesDeGitHub(process.env.GITHUB_TOKEN_ADMIN);
+    return Response.json({ ok: true, ajustes: vivo ? vivo.ajustes : AJUSTES });
   }
 
   const { error, ajustes } = limpia(cuerpo);
@@ -119,20 +151,16 @@ export async function POST(req) {
     return Response.json({ error: "Falta GITHUB_TOKEN_ADMIN en Vercel." }, { status: 500 });
   }
 
-  const cabeceras = {
-    Authorization: "Bearer " + token,
-    Accept: "application/vnd.github+json",
-    "User-Agent": "jarana-admin"
-  };
-  const api = `https://api.github.com/repos/${REPO}/contents/${FICHERO}`;
+  const cabeceras = cabecerasGitHub(token);
+  const api = API_FICHERO;
 
   /* Hace falta el sha del fichero actual: GitHub lo exige para sobrescribir
      y asi no se pisa un cambio hecho entre medias. */
-  const actual = await fetch(api, { headers: cabeceras, cache: "no-store" });
-  if (!actual.ok) {
+  const actual = await ajustesDeGitHub(token);
+  if (!actual) {
     return Response.json({ error: "No se pudo leer el fichero en GitHub." }, { status: 502 });
   }
-  const { sha } = await actual.json();
+  const sha = actual.sha;
 
   const guardado = await fetch(api, {
     method: "PUT",
